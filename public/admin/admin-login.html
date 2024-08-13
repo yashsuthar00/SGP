@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +13,7 @@
     <form class="bottom-left" id="signin-form">
         <div class="textbox">
             <input type="text" id="signin-username" placeholder="Username" required>
+            <input type="hidden" id="user-role" value="admin">
         </div>
         <div class="textbox">
             <input type="password" id="signin-password" placeholder="Password" required>
@@ -24,6 +24,6 @@
         <img class="lamp" src="../assets/images/lamp.png" alt="Lamp Illustration">
         <img class="profile" src="../assets/images/profile.png" alt="Profile Icon">
     </form>
-    <script src="../assets/js/adminAuthScript.js"></script>
+    <script src="../assets/js/auth.js"></script>
 </body>
 </html>

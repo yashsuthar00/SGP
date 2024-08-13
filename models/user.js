@@ -26,4 +26,8 @@ UserSchema.methods.comparePassword = async function (password) {
     return await bcrypt.compare(password, this.password);
 };
 
-module.exports = mongoose.model('User', UserSchema);
+const admin = mongoose.model('admin', UserSchema, "adminLogin");
+const faculty = mongoose.model('faculty', UserSchema, "facultyLogin");
+const student = mongoose.model('student', UserSchema, "studentLogin");
+
+module.exports = { admin, faculty, student };

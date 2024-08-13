@@ -24,6 +24,7 @@ document.getElementById('signin-form').addEventListener('submit', async (e) => {
     
     const username = document.getElementById('signin-username').value;
     const password = document.getElementById('signin-password').value;
+    const userRole = document.getElementById('user-role').value;
 
     try {
         const response = await fetch('/signin', {
@@ -31,12 +32,19 @@ document.getElementById('signin-form').addEventListener('submit', async (e) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ username, password, userRole}),
         });
 
         if (response.ok) {
-            // alert('Admin signed in');
-            window.location.href = '/admin-dashboard';
+            if (userRole === 'faculty') {
+                window.location.href = '/faculty-dashboard';
+            } else if (userRole === 'student') {
+                window.location.href = '/student-dashboard';
+            } else if (userRole === 'admin') {
+                window.location.href = '/admin-dashboard';
+            } else {
+                alert('Unknown user role');
+            }
         } else {
             const errorText = await response.text();
             alert(`Error: ${errorText}`);

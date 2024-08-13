@@ -49,6 +49,10 @@ app.get('/student-login', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/student/studentLogin.html'))
 })
 
+app.get('/admin-dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/admin/dashboard.html'))
+})
+
 
 app.listen(PORT, () => {
     console.log(`server running on https://localhost:3000`)

@@ -1,0 +1,247 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    font-size: 70px;
+    color: aliceblue;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url('../images/bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+}
+
+.top-left {
+    position: absolute;
+    top: 180px;
+    left: 100px;
+}
+
+.bottom-left {
+    position: absolute;
+    bottom: 200px;
+    left: 100px;
+    width: 30%;
+}
+
+.textbox {
+    margin-bottom: 20px;
+}
+
+.textbox input {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid #ffcc00;
+    color: white;
+}
+
+.textbox input:focus {
+    outline: none;
+}
+
+.forgot-password {
+    display: block;
+    margin-bottom: 20px;
+    color: #ffcc00;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.btn {
+    background-color: #ffcc00;
+    border: none;
+    color: white;
+    padding: 15px 20px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #ffaa00;
+}
+
+.boy {
+    position: absolute;
+    width: 380px;
+    height: 411px;
+    left: 880px;
+    bottom: -100px;
+}
+
+.lamp {
+    position: absolute;
+    width: 174px;
+    height: 276px;
+    left: 600px;
+    bottom: 230px;
+}
+
+.profile {
+    position: absolute;
+    width: 220px;
+    height: 100px;
+    left: 80px;
+    bottom: 350px;
+}
+
+/* Responsive code */
+@media (max-width: 1200px) {
+    .top-left {
+        top: 140px;
+        left: 70px;
+        font-size: 60px;
+    }
+
+    .bottom-left {
+        bottom: 180px;
+        left: 100px;
+        width: 35%;
+    }
+
+    .boy {
+        width: 320px;
+        height: 350px;
+        left: 650px;
+        bottom: -50px;
+    }
+
+    .lamp {
+        width: 150px;
+        height: 240px;
+        left: 400px;
+        bottom: 200px;
+    }
+
+    .profile {
+        width: 200px;
+        height: 90px;
+        left: 8px;
+        bottom: 330px;
+    }
+}
+
+@media (max-width: 992px) {
+    .top-left {
+        top: 120px;
+        left: 60px;
+        font-size: 50px;
+    }
+
+    .bottom-left {
+        bottom: 160px;
+        left: 80px;
+        width: 40%;
+    }
+
+    .boy {
+        width: 280px;
+        height: 300px;
+        left: 600px;
+        bottom: -40px;
+    }
+
+    .lamp {
+        width: 130px;
+        height: 210px;
+        left: 350px;
+        bottom: 180px;
+    }
+
+    .profile {
+        width: 180px;
+        height: 80px;
+        left: 6px;
+        bottom: 310px;
+    }
+}
+
+@media (max-width: 768px) {
+    .top-left {
+        top: 100px;
+        left: 50px;
+        font-size: 40px;
+    }
+
+    .bottom-left {
+        bottom: 140px;
+        left: 60px;
+        width: 50%;
+    }
+
+    .boy {
+        width: 240px;
+        height: 260px;
+        left: 550px;
+        bottom: -30px;
+    }
+
+    .lamp {
+        width: 110px;
+        height: 180px;
+        left: 300px;
+        bottom: 160px;
+    }
+
+    .profile {
+        width: 160px;
+        height: 70px;
+        left: 4px;
+        bottom: 290px;
+    }
+}
+
+@media (max-width: 576px) {
+    .top-left {
+        top: 80px;
+        left: 40px;
+        font-size: 30px;
+    }
+
+    .bottom-left {
+        bottom: 120px;
+        left: 40px;
+        width: 60%;
+    }
+
+    .boy {
+        width: 200px;
+        height: 220px;
+        left: 450px;
+        bottom: -20px;
+    }
+
+    .lamp {
+        width: 90px;
+        height: 150px;
+        left: 250px;
+        bottom: 140px;
+    }
+
+    .profile {
+        width: 120px;
+        height: 50px;
+        left: 1px;
+        bottom: 250px;
+    }
+}

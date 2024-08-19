@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const { error } = require('console')
 const path = require('path')
-const { admin, faculty, student } = require('./models/User')
+const { admin, faculty, student, StudentDetail } = require('./models/User')
 require('dotenv').config();
 
 const PORT = 3000
@@ -15,6 +15,7 @@ mongoose.connect(process.env.MONGODB_URI)
 .catch(err => console.error(err))
 
 app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static('public'))
 
@@ -46,29 +47,73 @@ app.post('/signin', async (req, res) => {
 
 
 
+// Student admission Detail
+
+app.post('/student-detail', async (req, res) => {
+    try {
+        const { Fname, Lname, dob, email, contact, address, addmission_date, Course, Sem } = req.body;
+        console.log(req.body);
+        console.log(Fname, Lname, dob, email, contact, address, addmission_date, Course, Sem);
+
+        const studentDetail = new StudentDetail({ 
+            Fname,
+            Lname,
+            DOB : dob,
+            Email : email,
+            Contact : contact,
+            Address : address,
+            AdmissionDate : addmission_date,
+            Course,
+            Semester : Sem,
+        });
+
+        await studentDetail.save();
+        res.send(`Data added successfully`)
+    } catch (error) {
+        res.status(500).send(`Error saving data: ${error.message}`);
+    }
+});
 
 
 
 
+
+
+
+// Admin
 app.get('/admin-login', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/admin/admin-login.html'))
-})
-app.get('/faculty-login', (req, res) => {
-    res.sendFile(path.join(__dirname, '/public/faculty/faculty-login.html'))
-})
-app.get('/student-login', (req, res) => {
-    res.sendFile(path.join(__dirname, '/public/student/student-login.html'))
 })
 
 app.get('/admin-dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/admin/admin-dashboard.html'))
 })
+
+app.get('/student', (req, res) =>{
+    res.sendFile(path.join(__dirname, '/public/admin/student-management.html'))
+})
+
+
+
+// faculty
+app.get('/faculty-login', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/faculty/faculty-login.html'))
+})
+
 app.get('/faculty-dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/faculty/faculty-dashboard.html'))
 })
+
+// student
+app.get('/student-login', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/student/student-login.html'))
+})
+
 app.get('/student-dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/student/student-dashboard.html'))
 })
+
+
 
 app.listen(PORT, () => {
     console.log(`server running on https://localhost:3000`)

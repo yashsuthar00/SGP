@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="../assets/css/form.css">
+
+    <title>Responsive Registration Form</title>
+</head>
+<body>
+    <div class="container">
+        <form action="/student-detail" method="post">
+            <div class="form ">
+                <div class="details personal">
+                    <span class="title">Personal Details</span>
+
+                    <div class="fields">
+                        <!-- <div class="input-field">
+                            <label>ID</label>
+                            <input type="text" name="student_id" id="student_id" placeholder="Enter your ID" required>
+                        </div> -->
+                        <div class="input-field">
+                            <label>First Name</label>
+                            <input type="text" name="Fname" id="studentName" placeholder="Enter your name" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Last Name</label>
+                            <input type="text" name="Lname" id="studentName" placeholder="Enter your name" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Date of Birth</label>
+                            <input type="date" name="dob" id="dob" placeholder="Enter birth date" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Email</label>
+                            <input type="email" name="email" id="email" placeholder="Enter your email" required>
+                        </div>
+                        
+                        <div class="input-field">
+                            <label>Contact</label>
+                            <input type="number" name="contact" id="contact" placeholder="Enter mobile number" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Address</label>
+                            <input type="text" name="address" id="address" placeholder="Address" required>
+                        </div>
+                        <div class="input-field">
+                            <label>Addmission Date</label>
+                            <input type="date" name="addmission_date" id="addmission_date" placeholder="Address" required>
+                        </div>
+                        <div class="input-field">
+                            <label for="Course">Select Course:</label>
+                            <select name="Course" id="course">
+                            	<option value="" disabled selected>Select your course</option>
+                                <option value="CSE">COMPUTER SCIENCE ENGINEERING</option>
+                                <option value="CE">COMPUTER ENGINEERING</option>
+                                <option value="IT">INFORMATION TECHNOLOGY</option>
+                                <option value="ME">MECHANICAL ENGINEERING</option>
+                                <option value="AE">AUTOMOBILE ENGINEERING</option>
+                            </select>
+                        </div>
+                        <div class="input-field">
+                            <label for="Sem">Select Semester</label>
+                            <select name="Sem" id="Sem">
+                            	<option value="" disabled selected>Select your Semester</option>
+                                <option value="sem-1">Semester 1</option>
+                                <option value="sem-2">Semester 2</option>
+                                <option value="sem-3">Semester 3</option>
+                                <option value="sem-4">Semester 4</option>
+                                <option value="sem-5">Semester 5</option>
+                                <option value="sem-6">Semester 6</option>
+                                <option value="sem-7">Semester 7</option>
+                                <option value="sem-8">Semester 8</option>
+                            </select>
+                        </div>
+                        <!-- <div class="input-field">
+                            <label for="operation">Select operation:</label>
+					        <select id="operation" name="operation">
+					            <option value="insert">Insert</option>
+					            <option value="update">Update</option>
+					        </select>
+                        </div> -->
+                    </div>
+                        <button class="sumbit">
+                            <span class="btnText">Save</span>
+                            <i class="uil uil-navigator"></i>
+                        </button>
+                    </div>
+                </div> 
+            </form>
+            </div>
+        
+    
+    <script>const form = document.querySelector("form"),
+        nextBtn = form.querySelector(".nextBtn"),
+        backBtn = form.querySelector(".backBtn"),
+        allInput = form.querySelectorAll(".first input");
+    </script>
+</body>
+</html>

@@ -1,23 +1,25 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
-const { error } = require('console')
-const path = require('path')
-const { admin, faculty, student, StudentDetail } = require('./models/User')
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const { error } = require('console');
+const cors = require('cors');
+const path = require('path');
+const { admin, faculty, student, StudentDetail } = require('./models/user');
 require('dotenv').config();
 
-const PORT = 3000
+const PORT = 3000;
 
-const app = express()
+const app = express();
 
 mongoose.connect(process.env.MONGODB_URI)
 .then(() => console.log('MongoDB connected'))
-.catch(err => console.error(err))
+.catch(err => console.error(err));
 
-app.use(bodyParser.json())
+app.use(cors());
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static('public'))
+app.use(express.static('public'));
 
 
 app.post('/signin', async (req, res) => {
@@ -47,7 +49,7 @@ app.post('/signin', async (req, res) => {
 
 
 
-// Student admission Detail
+// Student admission Detail/management
 
 app.post('/student-detail', async (req, res) => {
     try {
@@ -75,6 +77,16 @@ app.post('/student-detail', async (req, res) => {
 });
 
 
+// get student-logs
+app.get('/api/student-logs', async (req,res) => {
+    try {
+        const data = await StudentDetail.findOne({Fname: "yash"});
+        res.json(data);
+    } catch (error) {
+        res.status(500).send(err.message);
+    }
+});
+
 
 
 
@@ -93,7 +105,9 @@ app.get('/student', (req, res) =>{
     res.sendFile(path.join(__dirname, '/public/admin/student-management.html'))
 })
 
-
+app.get('/student-details', (req,res) => {
+    res.sendFile(path.join(__dirname, '/public/admin/student-logs.html'))
+})
 
 // faculty
 app.get('/faculty-login', (req, res) => {

@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet" href="../assets/css/form.css">
 
-    <title>Student Admission form</title>
+    <title>Student logs</title>
 </head>
 <body>
     <div class="container">
-        <form action="/student-detail" method="post">
+        <form action="/student-logs" method="post">
             <div class="form ">
                 <div class="details personal">
                     <span class="title">Personal Details</span>
@@ -96,12 +96,35 @@
                 </div> 
             </form>
             </div>
-        
-    
-    <script>const form = document.querySelector("form"),
-        nextBtn = form.querySelector(".nextBtn"),
-        backBtn = form.querySelector(".backBtn"),
-        allInput = form.querySelectorAll(".first input");
-    </script>
+            <div id="data-container"></div>
+
+            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+            <script>
+                axios.get('http://localhost:3000/api/student-logs')
+                .then(response => {
+                    const data = response.data;
+
+                    document.getElementById('firstName').value = data.Fname;
+                    document.getElementById('lastName').value = data.Lname;
+                    document.getElementById('dob').value = data.DOB;
+                    document.getElementById('email').value = data.Email;
+                    document.getElementById('contact').value = data.Contact;
+                    document.getElementById('address').value = data.Address;
+                    document.getElementById('addmission_date').value = data.AdmissionDate;
+                    document.getElementById('course').value = data.Course;
+                    document.getElementById('Sem').value = data.Semester;
+                    
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+            </script>
+
+
+
+
+
+
 </body>
 </html>

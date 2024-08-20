@@ -34,35 +34,14 @@ UserSchema.methods.comparePassword = async function (password) {
 const StudentDetailSchema = new mongoose.Schema({
     Fname: { type: String, required: true },
     Lname: { type: String, required: true },
-    DOB: { type: Date, required: true },
+    DOB: { type: String, required: true },
     Email: { type: String, required: true, unique: true },
     Contact: { type: String, required: true },
     Address: { type: String, required: true },
-    AdmissionDate: { type: Date, required: true },
+    AdmissionDate: { type: String, required: true },
     Course: { type: String, required: true },
     Semester: { type: String, required: true },
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

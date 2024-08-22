@@ -7,10 +7,16 @@
     <!----===== Iconscout CSS ===== -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet" href="../assets/css/form.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Student logs</title>
 </head>
 <body>
+    <!-- search bar -->
+    <input type="text" id="searchBar" placeholder="Search names..." oninput="performAutocomplete()">
+    <div id="suggestions" class="suggestions"></div>
+    <script src="searchbar.js"></script>
+    
+    <!-- form -->
     <div class="container">
         <form action="/student-logs" method="post">
             <div class="form ">
@@ -80,13 +86,6 @@
                                 <option value="sem-8">Semester 8</option>
                             </select>
                         </div>
-                        <!-- <div class="input-field">
-                            <label for="operation">Select operation:</label>
-					        <select id="operation" name="operation">
-					            <option value="insert">Insert</option>
-					            <option value="update">Update</option>
-					        </select>
-                        </div> -->
                     </div>
                         <button class="sumbit">
                             <span class="btnText">Save</span>
@@ -98,10 +97,8 @@
             </div>
             <div id="data-container"></div>
 
-            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
             <script>
-                axios.get('http://localhost:3000/api/student-logs')
+                axios.get('/api/student-logs')
                 .then(response => {
                     const data = response.data;
 

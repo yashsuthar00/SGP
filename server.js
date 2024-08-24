@@ -1,25 +1,27 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const { error } = require('console');
 const cors = require('cors');
 const path = require('path');
 const { admin, faculty, student, StudentDetail } = require('./models/user');
 require('dotenv').config();
 
-const PORT = 3000;
-
 const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+app.use(cookieParser()); 
+
+
+const PORT = 3000;
 
 mongoose.connect(process.env.MONGODB_URI)
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error(err));
-
-app.use(cors());
-app.use(bodyParser.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use(express.static('public'));
 
 
 app.post('/signin', async (req, res) => {
@@ -39,13 +41,64 @@ app.post('/signin', async (req, res) => {
         }
         const user = await User.findOne({ username });
         if (!user || !(await user.comparePassword(password))) {
-            return res.status(400).send('Invalid credentials');
+            return res.status(400).send('Invalid credentials'); 
         }
-        res.send('User signed in');
+        const token = jwt.sign({ userId: user._id, role: userRole }, process.env.JWT_SECRET, { expiresIn: '1m' });
+
+        res.cookie('jwt', token, { httpOnly: true, maxAge: 60000 }); 
+        res.redirect(`/${userRole}-dashboard`); 
     } catch (error) {
         res.status(400).send('Error signing in');
     }
 });
+
+function authenticateToken(req, res, next) {
+    const token = req.cookies.jwt; 
+
+    if (!token) {
+        return res.sendStatus(401); 
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.sendStatus(403); 
+        }
+        next(); 
+    });
+}
+
+// Middleware for admin routes
+function authorizeAdmin(req, res, userRole, next) {
+    if (userRole !== 'admin') {
+        return res.sendStatus(User);
+    }
+    next();
+}
+
+// Middleware for faculty routes
+function authorizeFaculty(req, res, next) {
+    if (req.userRole!== 'faculty') {
+        return res.sendStatus(403); 
+    }
+    next();
+}
+
+// Middleware for student routes
+function authorizeStudent(req, res, next) {
+    if (req.userRole!== 'student') {
+        return res.sendStatus(403); 
+    }
+    next();
+}
+
+
+app.post('/logout', (req, res) => {
+    res.clearCookie('jwt');
+    res.redirect('/login');
+});
+
+
+
 
 
 
@@ -80,7 +133,7 @@ app.post('/student-detail', async (req, res) => {
 // get student-logs
 app.get('/api/student-logs', async (req,res) => {
     try {
-        const data = await StudentDetail.findOne({Fname: "parikshit"});
+        const data = await StudentDetail.findOne({Fname: "Yash"});
         res.json(data);
     } catch (error) {
         res.status(500).send(err.message);
@@ -97,15 +150,15 @@ app.get('/admin-login', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/admin/admin-login.html'))
 })
 
-app.get('/admin-dashboard', (req, res) => {
+app.get('/admin-dashboard', authenticateToken, authorizeAdmin, (req, res) => {
     res.sendFile(path.join(__dirname, '/public/admin/admin-dashboard.html'))
 })
 
-app.get('/student', (req, res) =>{
+app.get('/student', authenticateToken, authorizeAdmin, (req, res) =>{
     res.sendFile(path.join(__dirname, '/public/admin/student-management.html'))
 })
 
-app.get('/student-details', (req,res) => {
+app.get('/student-details', authenticateToken, authorizeAdmin, (req,res) => {
     res.sendFile(path.join(__dirname, '/public/admin/student-logs.html'))
 })
 
@@ -114,7 +167,7 @@ app.get('/faculty-login', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/faculty/faculty-login.html'))
 })
 
-app.get('/faculty-dashboard', (req, res) => {
+app.get('/faculty-dashboard', authenticateToken, authorizeFaculty, (req, res) => {
     res.sendFile(path.join(__dirname, '/public/faculty/faculty-dashboard.html'))
 })
 
@@ -123,7 +176,7 @@ app.get('/student-login', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/student/student-login.html'))
 })
 
-app.get('/student-dashboard', (req, res) => {
+app.get('/student-dashboard', authenticateToken, authorizeStudent, (req, res) => {
     res.sendFile(path.join(__dirname, '/public/student/student-dashboard.html'))
 })
 

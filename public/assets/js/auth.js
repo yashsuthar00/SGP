@@ -37,11 +37,11 @@ document.getElementById('signin-form').addEventListener('submit', async (e) => {
 
         if (response.ok) {
             if (userRole === 'faculty') {
-                window.location.href = '/faculty-dashboard';
+                window.location.href = '/faculty/dashboard';
             } else if (userRole === 'student') {
-                window.location.href = '/student-dashboard';
+                window.location.href = '/student/dashboard';
             } else if (userRole === 'admin') {
-                window.location.href = '/admin-dashboard';
+                window.location.href = '/admin/dashboard';
             } else {
                 alert('Unknown user role');
             }

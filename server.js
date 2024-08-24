@@ -24,87 +24,9 @@ mongoose.connect(process.env.MONGODB_URI)
 .catch(err => console.error(err));
 
 
-app.post('/signin', async (req, res) => {
-    const { username, password } = req.body;
-    var { userRole } = req.body;
-    // console.log(req.body);
-    try {
-        let User;
-        if (userRole === 'admin') {
-            User = admin;
-        } else if (userRole === 'faculty') {
-            User = faculty;
-        } else if (userRole === 'student') {
-            User = student;
-        } else {
-            return res.status(400).send('Invalid role');
-        }
-        const user = await User.findOne({ username });
-        if (!user || !(await user.comparePassword(password))) {
-            return res.status(400).send('Invalid credentials'); 
-        }
-        const token = jwt.sign({ userId: user._id, role: userRole }, process.env.JWT_SECRET, { expiresIn: '1m' });
-
-        res.cookie('jwt', token, { httpOnly: true, maxAge: 60000 }); 
-        res.redirect(`/${userRole}-dashboard`); 
-    } catch (error) {
-        res.status(400).send('Error signing in');
-    }
-});
-
-function authenticateToken(req, res, next) {
-    const token = req.cookies.jwt; 
-
-    if (!token) {
-        return res.sendStatus(401); 
-    }
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) {
-            return res.sendStatus(403); 
-        }
-        next(); 
-    });
-}
-
-// Middleware for admin routes
-function authorizeAdmin(req, res, userRole, next) {
-    if (userRole !== 'admin') {
-        return res.sendStatus(User);
-    }
-    next();
-}
-
-// Middleware for faculty routes
-function authorizeFaculty(req, res, next) {
-    if (req.userRole!== 'faculty') {
-        return res.sendStatus(403); 
-    }
-    next();
-}
-
-// Middleware for student routes
-function authorizeStudent(req, res, next) {
-    if (req.userRole!== 'student') {
-        return res.sendStatus(403); 
-    }
-    next();
-}
-
-
-app.post('/logout', (req, res) => {
-    res.clearCookie('jwt');
-    res.redirect('/login');
-});
-
-
-
-
-
-
 // Student admission Detail/management
 
-app.post('/student-detail', async (req, res) => {
+app.post('/student/detail', async (req, res) => {
     try {
         const { Fname, Lname, dob, email, contact, address, addmission_date, Course, Sem } = req.body;
         console.log(req.body);
@@ -145,38 +67,117 @@ app.get('/api/student-logs', async (req,res) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+app.post('/signin', async (req, res) => {
+    const { username, password } = req.body;
+    var { userRole } = req.body;
+    // console.log(req.body);
+    try {
+        let User;
+        if (userRole === 'admin') {
+            User = admin;
+        } else if (userRole === 'faculty') {
+            User = faculty;
+        } else if (userRole === 'student') {
+            User = student;
+        } else {
+            return res.status(400).send('Invalid role');
+        }
+        const user = await User.findOne({ username });
+        if (!user || !(await user.comparePassword(password))) {
+            return res.status(400).send('Invalid credentials'); 
+        }
+        const token = jwt.sign({ userId: user._id, role: userRole }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 }); 
+        res.redirect(`/${userRole}/dashboard`); 
+    } catch (error) {
+        res.status(400).send('Error signing in');
+    }
+});
+
+function authenticateToken(req, res, next) {
+    const token = req.cookies.jwt; 
+
+    if (!token) {
+        return res.sendStatus(401);
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.sendStatus(403); 
+        }
+        req.user = user;
+        next(); 
+    });
+}
+
+function authorizeRole(role) {
+    return (req, res, next) => {
+
+        if (!req.user || req.user.role !== role) {
+            return res.sendStatus(403); // Forbidden
+        }
+        next();
+    };
+}
+
+app.post('/logout', (req, res, userRole) => {
+    res.clearCookie('jwt');
+    res.clearCookie('role');
+    res.redirect(`/${userRole}/login`);
+});
+
+
+
+
+
+
+
+
 // Admin
-app.get('/admin-login', (req, res) => {
+app.get('/admin/login', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/admin/admin-login.html'))
 })
 
-app.get('/admin-dashboard', authenticateToken, authorizeAdmin, (req, res) => {
+app.get('/admin/dashboard', authenticateToken, authorizeRole('admin'), (req, res) => {
     res.sendFile(path.join(__dirname, '/public/admin/admin-dashboard.html'))
 })
 
-app.get('/student', authenticateToken, authorizeAdmin, (req, res) =>{
+app.get('/student', authenticateToken, authorizeRole('admin'), (req, res) =>{
     res.sendFile(path.join(__dirname, '/public/admin/student-management.html'))
 })
 
-app.get('/student-details', authenticateToken, authorizeAdmin, (req,res) => {
+app.get('/student/details', authenticateToken, authorizeRole('admin'), (req,res) => {
     res.sendFile(path.join(__dirname, '/public/admin/student-logs.html'))
 })
 
 // faculty
-app.get('/faculty-login', (req, res) => {
+app.get('/faculty/login', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/faculty/faculty-login.html'))
 })
 
-app.get('/faculty-dashboard', authenticateToken, authorizeFaculty, (req, res) => {
+app.get('/faculty/dashboard', authenticateToken, authorizeRole('faculty'), (req, res) => {
     res.sendFile(path.join(__dirname, '/public/faculty/faculty-dashboard.html'))
 })
 
 // student
-app.get('/student-login', (req, res) => {
+app.get('/student/login', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/student/student-login.html'))
 })
 
-app.get('/student-dashboard', authenticateToken, authorizeStudent, (req, res) => {
+app.get('/student/dashboard', authenticateToken, authorizeRole('student'), (req, res) => {
     res.sendFile(path.join(__dirname, '/public/student/student-dashboard.html'))
 })
 

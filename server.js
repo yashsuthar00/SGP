@@ -55,7 +55,7 @@ app.post('/student/detail', async (req, res) => {
 // get student-logs
 app.get('/api/student-logs', async (req,res) => {
     try {
-        const data = await StudentDetail.findOne({Fname: "Yash"});
+        const data = await StudentDetail.findOne({Fname: "rahul"});
         res.json(data);
     } catch (error) {
         res.status(500).send(err.message);

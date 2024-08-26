@@ -3,27 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/login.css">
-    <title>Admin Login portal</title>
+    <title>Admin Login Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Risque&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/login.css" />
 </head>
 <body>
     <div class="container">
-        <div class="top-left" id="welcome">Welcome Admin</div>
+        <form class="login-form" id="signin-form">
+            <div class="img">
+                <img class="profile" src="../assets/images/profile.png" alt="profile">
+            </div>
+            <h2 id="welcome">Welcome Admin</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <div class="input">
+                    <input type="text" id="signin-username" name="username" required>
+                    <input type="hidden" id="user-role" value="admin">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <div class="input">
+                    <input type="password" id="signin-password" name="password" required>
+                </div>
+            </div>
+            <div class="forgot-pass">
+                <a href="#">
+                    <label for="forgot password">Forgot Password?</label>
+                </a>
+            </div>
+            <button type="submit">Login</button>
+        </form>
     </div>
-    <form class="bottom-left" id="signin-form">
-        <div class="textbox">
-            <input type="text" id="signin-username" placeholder="Username" required>
-            <input type="hidden" id="user-role" value="admin">
-        </div>
-        <div class="textbox">
-            <input type="password" id="signin-password" placeholder="Password" required>
-        </div>
-        <a href="#" class="forgot-password">Forgot Password?</a>
-        <button type="submit" class="btn">Sign In</button>
-        <img class="boy" src="../assets/images/boy.png"alt="Boy Illustration">
-        <img class="lamp" src="../assets/images/lamp.png" alt="Lamp Illustration">
-        <img class="profile" src="../assets/images/profile.png" alt="Profile Icon">
-    </form>
     <script src="../assets/js/auth.js"></script>
 </body>
 </html>

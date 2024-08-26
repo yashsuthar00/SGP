@@ -48,6 +48,10 @@ body, html {
     border: 1px solid rgba(255, 255, 255, 0.48);
 }
 
+.portal a{
+    text-decoration: none;
+    color: black;
+}
 .portal img {
     width: 180px; 
     height: auto;

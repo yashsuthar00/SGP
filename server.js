@@ -53,19 +53,27 @@ app.post('/student/detail', async (req, res) => {
 
 
 // get student-logs
-app.get('/api/student-logs', async (req,res) => {
+app.get('/api/student-logs/:id', async (req,res) => {
+    const { id } = req.params;
     try {
-        const data = await StudentDetail.findOne({Fname: "rahul"});
+        const data = await StudentDetail.findOne({Fname: id });
+        // console.log(data);
         res.json(data);
     } catch (error) {
         res.status(500).send(err.message);
     }
 });
 
-
-
-
-
+app.get('/api/student-logs', async (req, res) => {
+    try {
+        const query = req.query.q || '';
+        const users = await StudentDetail.find({ Fname: { $regex: `^${query}`, $options: 'i' } }, {Fname:1, _id:0}).limit(10);
+        console.log(users);
+        res.json(users);
+    } catch (err) {
+        res.status(500).send('Error fetching autocomplete results');
+    }
+});
 
 
 

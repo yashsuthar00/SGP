@@ -1,15 +1,279 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../assets/css/dash.css">
+  <title>Admin dashboard</title>
 </head>
 <body>
-    <h1>admin dashboard will be added soon</h1>
-    <a href="/student">Student management</a> 
-    <br>
-    <br>
-    <a href="/student/details">Student Details</a>
+  <div class="container">
+    <div class="slidebar">
+
+        <div class="profile">
+            <img src="../assets/images/admin profile.jpg" alt="Profile Picture">
+            <h2>Admin</h2>
+            <p>Indus University</p>
+        </div>
+        
+        <nav class="sidebar-menu">
+          <a href="#" class="menu-item active"><img class="menu-icon" src="../assets/images/dashboard.png" alt="">Dashboard</a>
+          
+          <!-- Faculty Dropdown -->
+          <button class="dropdown-btn"><img class="menu-icon" src="../assets/images/faculty.png" alt="">Facultys</button>
+          <div class="dropdown-content">
+              <a  href="#">Attendance</a>
+              <a  href="#">Courses</a>
+              <a  href="#">Time Table</a>
+          </div>
+          
+          <!-- Student Dropdown -->
+          <button class="dropdown-btn "><img class="menu-icon" src="../assets/images/student.png" alt="">Students</button>
+          <div class="dropdown-content">
+              <a href="/student">Manage Students</a>
+              <a href="/student/details">Student Details</a>
+              <a href="#">Attendance</a>
+              <a href="#">Time Table</a>
+              <a href="#">Marks</a>
+              <a href="#">Courses</a>
+          </div>
+          
+          <a href="#" class="menu-item"><img class="menu-icon" src="../assets/images/exam.png" alt="">Exams</a>
+          <a href="#" class="menu-item"><img class="menu-icon" src="../assets/images/course.png" alt="">Courses</a>
+          <a href="#" class="menu-item"><img class="menu-icon" src="../assets/images/calendar.png" alt="">Time Table</a>
+          <a href="#" class="menu-item"><img class="menu-icon" src="../assets/images/hall.png" alt="">Lecture Hall</a>
+          <a href="/logout" class="menu-item"><img class="menu-icon" src="../assets/images/logout.png" alt="">Logout</a>
+      </nav>
+      
+    </div>
+    <div class="main"></div>
+    <div class="calendar">
+        <div class="child-calendar">
+          <div class="header">
+            <button id="prev-year"><img class="cal-icon"  src="../assets/images/back.png" alt=""></button>
+            <span id="year"></span>
+            <button id="next-year"><img class="cal-icon"  src="../assets/images/forward.png" alt=""></button>
+          </div>
+          <div class="months">
+            <button id="prev-month"><img class="cal-icon"  src="../assets/images/back.png" alt=""></button>
+            <span id="month"></span>
+            <button id="next-month"><img class="cal-icon"  src="../assets/images/forward.png" alt=""></button>
+          </div>
+          <div class="days">
+            <table id="calendar-table">
+              <thead>
+                <tr>
+                  <th>Mon</th>
+                  <th>Tue</th>
+                  <th>Wed</th>
+                  <th>Thu</th>
+                  <th>Fri</th>
+                  <th>Sat</th>
+                  <th>Sun</th>
+                </tr>
+              </thead>
+              <tbody id="calendar-body">
+              </tbody>
+            </table>
+          </div>
+        </div> 
+
+        <div class="event-list">
+          <div class="event-header">
+              <h2>Upcoming Events</h2>
+              <p>1st Feb Monday - 7th Feb Sunday</p>
+          </div>
+          <div class="events">
+              <!-- Event item example -->
+              <div class="event-item">
+                  <div class="event-status">
+                      <div class="status-indicator"></div>
+                  </div>
+                  <div class="event-details">
+                      <h3>Applied Science Homework</h3>
+                      <p>2nd of February - Tuesday</p>
+                      <p>11:30 - 12:30</p>
+                  </div>
+              </div>
+              <!-- Repeat similar event-item divs with different details -->
+          </div>
+      </div>
+      
+    </div>
+  </div>
+
+<script>document.addEventListener('DOMContentLoaded', function() {
+  const dropdownBtns = document.querySelectorAll('.dropdown-btn');
+
+  dropdownBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+          // Collapse any other open dropdown
+          dropdownBtns.forEach(otherBtn => {
+              if (otherBtn !== btn) {
+                  const otherDropdownContent = otherBtn.nextElementSibling;
+                  otherDropdownContent.classList.remove('active');
+                  otherDropdownContent.style.maxHeight = null;
+              }
+          });
+
+          // Toggle the clicked dropdown content
+          const dropdownContent = this.nextElementSibling;
+          dropdownContent.classList.toggle('active');
+          
+          if (dropdownContent.classList.contains('active')) {
+              dropdownContent.style.maxHeight = dropdownContent.scrollHeight + "px";
+          } else {
+              dropdownContent.style.maxHeight = null;
+          }
+      });
+  });
+});
+
+// This is for child-calender
+let currentYear = new Date().getFullYear();
+let currentMonth = new Date().getMonth();
+
+document.getElementById('year').innerText = currentYear;
+document.getElementById('month').innerText = getMonthName(currentMonth);
+
+document.getElementById('prev-year').addEventListener('click', () => {
+    currentYear--;
+    renderCalendar();
+});
+
+document.getElementById('next-year').addEventListener('click', () => {
+    currentYear++;
+    renderCalendar();
+});
+
+document.getElementById('prev-month').addEventListener('click', () => {
+    currentMonth--;
+    if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+    }
+    renderCalendar();
+});
+
+document.getElementById('next-month').addEventListener('click', () => {
+    currentMonth++;
+    if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+    }
+    renderCalendar();
+});
+
+function renderCalendar() {
+    document.getElementById('year').innerText = currentYear;
+    document.getElementById('month').innerText = getMonthName(currentMonth);
+    const calendarBody = document.getElementById('calendar-body');
+    calendarBody.innerHTML = '';
+
+    const firstDay = new Date(currentYear, currentMonth).getDay();
+    const daysInMonth = getDaysInMonth(currentYear, currentMonth);
+
+    let date = 1;
+    for (let i = 0; i < 6; i++) {
+        const row = document.createElement('tr');
+
+        for (let j = 0; j < 7; j++) {
+            if (i === 0 && j < firstDay) {
+                const cell = document.createElement('td');
+                cell.innerText = '';
+                row.appendChild(cell);
+            } else if (date > daysInMonth) {
+                break;
+            } else {
+                const cell = document.createElement('td');
+                cell.innerText = date;
+                if (date === 1) { 
+                    cell.classList.add('active');
+                }
+                row.appendChild(cell);
+                date++;
+            }
+        }
+
+        calendarBody.appendChild(row);
+    }
+}
+
+function getMonthName(month) {
+    const months = [
+        'January', 'February', 'March', 'April', 'May', 'June', 'July',
+        'August', 'September', 'October', 'November', 'December'
+    ];
+    return months[month];
+}
+
+function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+}
+
+renderCalendar();
+
+//This is for event 
+const events = [
+    {
+        title: "Applied Science Homework",
+        date: "2nd of February - Tuesday",
+        time: "11:30 - 12:30",
+        status: "red"  // can be red, orange, yellow, green
+    },
+    {
+        title: "Technology Exam",
+        date: "3rd of February - Wednesday",
+        time: "11:30 - 12:30",
+        status: "orange"
+    },
+    // Add more events here...
+];
+
+function loadEvents() {
+    const eventContainer = document.querySelector('.events');
+    eventContainer.innerHTML = '';  // Clear existing events
+
+    events.forEach(event => {
+        const eventItem = document.createElement('div');
+        eventItem.classList.add('event-item');
+
+        const eventStatus = document.createElement('div');
+        eventStatus.classList.add('event-status');
+
+        const statusIndicator = document.createElement('div');
+        statusIndicator.classList.add('status-indicator');
+        statusIndicator.classList.add(event.status);  // Add status color class
+
+        eventStatus.appendChild(statusIndicator);
+        eventItem.appendChild(eventStatus);
+
+        const eventDetails = document.createElement('div');
+        eventDetails.classList.add('event-details');
+
+        const eventTitle = document.createElement('h3');
+        eventTitle.textContent = event.title;
+        eventDetails.appendChild(eventTitle);
+
+        const eventDate = document.createElement('p');
+        eventDate.textContent = event.date;
+        eventDetails.appendChild(eventDate);
+
+        const eventTime = document.createElement('p');
+        eventTime.textContent = event.time;
+        eventDetails.appendChild(eventTime);
+
+        eventItem.appendChild(eventDetails);
+
+        eventContainer.appendChild(eventItem);
+    });
+}
+
+// Call the function to load events
+loadEvents();
+
+
+</script>
+  
 </body>
 </html>

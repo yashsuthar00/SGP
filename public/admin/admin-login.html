@@ -1,42 +1,59 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Risque&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/login.css" />
-</head>
-<body>
-    <div class="container">
-        <form class="login-form" id="signin-form">
-            <div class="img">
-                <img class="profile" src="../assets/images/profile.png" alt="profile">
-            </div>
-            <h2 id="welcome">Welcome Admin</h2>
-            <div class="input-group">
-                <label for="username">Username</label>
-                <div class="input">
-                    <input type="text" id="signin-username" name="username" required>
-                    <input type="hidden" id="user-role" value="admin">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Admin Login</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Risque&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="../assets/css/login.css" />
+    </head>
+    <body>
+        <div class="container">
+            <form class="login-form" id="signin-form">
+                <div class="img">
+                    <img
+                        class="profile"
+                        src="../assets/images/profile.png"
+                        alt="profile"
+                    />
                 </div>
-            </div>
-            <div class="input-group">
-                <label for="password">Password</label>
-                <div class="input">
-                    <input type="password" id="signin-password" name="password" required>
+                <h2 id="welcome">Welcome Admin</h2>
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <div class="input">
+                        <input
+                            type="text"
+                            id="signin-username"
+                            name="username"
+                            required
+                        />
+                        <input type="hidden" id="user-role" value="admin" />
+                    </div>
                 </div>
-            </div>
-            <div class="forgot-pass">
-                <a href="#">
-                    <label for="forgot password">Forgot Password?</label>
-                </a>
-            </div>
-            <button type="submit">Login</button>
-        </form>
-    </div>
-    <script src="../assets/js/auth.js"></script>
-</body>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div class="input">
+                        <input
+                            type="password"
+                            id="signin-password"
+                            name="password"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="forgot-pass">
+                    <a href="#">
+                        <label for="forgot password">Forgot Password?</label>
+                    </a>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <script src="../assets/js/auth.js"></script>
+    </body>
 </html>

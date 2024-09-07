@@ -6,7 +6,7 @@ async function performAutocomplete() {
   }
   try {
     const response = await fetch(
-      `/api/student-logs?q=${encodeURIComponent(query)}`,
+      `/admin/api/student-logs?q=${encodeURIComponent(query)}`,
     );
     const users = await response.json();
     displaySuggestions(users);
@@ -55,7 +55,7 @@ function SearchById() {
   const studentID = document.getElementById("searchBar").value;
 
   axios
-    .get(`/api/student-logs/${studentID}`)
+    .get(`/admin/api/student-logs/${studentID}`)
     .then((response) => {
       if (response.data == null) {
         document.getElementById("studentData").reset();

@@ -17,105 +17,11 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 const PORT = 3000;
-
+// mongodb connection
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error(err));
-
-// Student admission Detail/management
-
-app.post("/student/detail", async (req, res) => {
-  try {
-    const {
-      Fname,
-      Lname,
-      dob,
-      email,
-      contact,
-      address,
-      addmission_date,
-      Course,
-      Sem,
-    } = req.body;
-    console.log(req.body);
-    console.log(
-      Fname,
-      Lname,
-      dob,
-      email,
-      contact,
-      address,
-      addmission_date,
-      Course,
-      Sem,
-    );
-
-    const studentDetail = new StudentDetail({
-      Fname,
-      Lname,
-      DOB: dob,
-      Email: email,
-      Contact: contact,
-      Address: address,
-      AdmissionDate: addmission_date,
-      Course,
-      Semester: Sem,
-    });
-
-    await studentDetail.save();
-    res.send(`Data added successfully`);
-  } catch (error) {
-    res.status(500).send(`Error saving data: ${error.message}`);
-  }
-});
-
-// get student-logs
-app.get("/api/student-logs/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    const data = await StudentDetail.findOne({ studentId: id });
-    // console.log(data);
-    res.json(data);
-  } catch (error) {
-    res.status(500).send(err.message);
-  }
-});
-
-// searching using studentId
-app.get("/api/student-logs", async (req, res) => {
-  try {
-    const query = req.query.q || "";
-    const regex = new RegExp(query, "i");
-
-    const users = await StudentDetail.aggregate([
-      {
-        $match: {
-          studentId: { $regex: regex },
-        },
-      },
-      {
-        $addFields: {
-          numericPart: { $toInt: { $substr: ["$studentId", 2, -1] } },
-        },
-      },
-      {
-        $sort: { numericPart: 1 },
-      },
-      {
-        $project: { studentId: 1, _id: 0 },
-      },
-      {
-        $limit: 10,
-      },
-    ]);
-
-    console.log(users);
-    res.json(users);
-  } catch (err) {
-    res.status(500).send("Error fetching autocomplete results");
-  }
-});
 
 app.post("/signin", async (req, res) => {
   const { username, password } = req.body;
@@ -174,70 +80,34 @@ function authorizeRole(role) {
   };
 }
 
+// role login
+app.get("/admin/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/admin/admin-login.html"));
+});
+
+app.get("/faculty/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/faculty/faculty-login.html"));
+});
+
+app.get("/student/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/student/student-login.html"));
+});
+
+// role routes
+const adminRouter = require("./routes/admin");
+app.use("/admin", authenticateToken, authorizeRole("admin"), adminRouter);
+
+const facultyRouter = require("./routes/faculty");
+app.use("/faculty", authenticateToken, authorizeRole("faculty"), facultyRouter);
+
+const studentRouter = require("./routes/student");
+app.use("/student", authenticateToken, authorizeRole("student"), studentRouter);
+
 app.post("/logout", (req, res, userRole) => {
   res.clearCookie("jwt");
   res.clearCookie("role");
   res.redirect(`/${userRole}/login`);
 });
-
-// Admin
-app.get("/admin/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/admin/admin-login.html"));
-});
-
-app.get(
-  "/admin/dashboard",
-  authenticateToken,
-  authorizeRole("admin"),
-  (req, res) => {
-    res.sendFile(path.join(__dirname, "/public/admin/admin-dashboard.html"));
-  },
-);
-
-app.get("/student", authenticateToken, authorizeRole("admin"), (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/admin/student-management.html"));
-});
-
-app.get(
-  "/student/details",
-  authenticateToken,
-  authorizeRole("admin"),
-  (req, res) => {
-    res.sendFile(path.join(__dirname, "/public/admin/student-logs.html"));
-  },
-);
-
-// faculty
-app.get("/faculty/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/faculty/faculty-login.html"));
-});
-
-app.get(
-  "/faculty/dashboard",
-  authenticateToken,
-  authorizeRole("faculty"),
-  (req, res) => {
-    res.sendFile(
-      path.join(__dirname, "/public/faculty/faculty-dashboard.html"),
-    );
-  },
-);
-
-// student
-app.get("/student/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/student/student-login.html"));
-});
-
-app.get(
-  "/student/dashboard",
-  authenticateToken,
-  authorizeRole("student"),
-  (req, res) => {
-    res.sendFile(
-      path.join(__dirname, "/public/student/student-dashboard.html"),
-    );
-  },
-);
 
 app.listen(PORT, () => {
   console.log(`server running on https://localhost:3000`);

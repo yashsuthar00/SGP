@@ -39,7 +39,6 @@ const StudentDetailSchema = new mongoose.Schema({
   AdmissionDate: { type: String, required: true },
   Course: { type: String, required: true },
   Semester: { type: String, required: true },
-  studentId: { type: String, required: true },
 });
 
 // search id to find StudentData

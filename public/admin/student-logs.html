@@ -10,6 +10,7 @@
         />
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <link rel="stylesheet" href="/assets/css/form.css" />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <title>Student Logs</title>
     </head>
     <body>
@@ -31,7 +32,7 @@
 
         <!-- form -->
         <div class="container">
-            <form action="/student-logs" id="studentData" method="post">
+            <form id="studentData">
                 <div class="form">
                     <div class="details personal">
                         <span class="title">Personal Details</span>
@@ -153,7 +154,7 @@
                                 </select>
                             </div>
                         </div>
-                        <button class="submit">
+                        <button class="submit" type="submit">
                             <span class="btnText">Save</span>
                             <i class="uil uil-navigator"></i>
                         </button>

@@ -77,3 +77,74 @@ function SearchById() {
       console.error("Error fetching data:", error);
     });
 }
+
+// update Data
+
+document
+  .getElementById("studentData")
+  .addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const studentId = document.getElementById("searchBar").value;
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const dob = document.getElementById("dob").value;
+    const email = document.getElementById("email").value;
+    const contact = document.getElementById("contact").value;
+    const address = document.getElementById("address").value;
+    const admission_date = document.getElementById("admission_date").value;
+    const course = document.getElementById("course").value;
+    const sem = document.getElementById("Sem").value;
+
+    const studentData = {
+      studentId,
+      firstName,
+      lastName,
+      dob,
+      email,
+      contact,
+      address,
+      admission_date,
+      course,
+      sem,
+    };
+
+    try {
+      const response = await fetch("/admin/api/students/update", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(studentData),
+      });
+
+      const result = await response.json();
+      console.log(result);
+
+      if (result.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Student details updated successfully",
+          confirmButtonColor: "#3085d6",
+          timer: 2000,
+          timerProgressBar: true,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Failed",
+          text: "Failed to update student details",
+          confirmButtonColor: "#d33",
+        });
+      }
+    } catch (err) {
+      console.error("Error updating student:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An unexpected error occurred",
+        confirmButtonColor: "#d33",
+      });
+    }
+  });

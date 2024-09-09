@@ -2,7 +2,10 @@ async function performAutocomplete() {
   const query = document.getElementById("searchBar").value;
   if (query.length === 0) {
     document.getElementById("suggestions").innerHTML = "";
+    document.getElementById("suggestions").classList.remove("active");
     return;
+  } else {
+    document.getElementById("suggestions").classList.add("active");
   }
   try {
     const response = await fetch(
@@ -23,6 +26,7 @@ document
       const query = event.target.value;
       if (query) {
         document.getElementById("suggestions").innerHTML = " ";
+        document.getElementById("suggestions").classList.remove("active");
         SearchById();
       }
     }
@@ -30,9 +34,10 @@ document
 
 function displaySuggestions(users) {
   const suggestionsDiv = document.getElementById("suggestions");
+
   suggestionsDiv.innerHTML = "";
   if (users.length === 0) {
-    suggestionsDiv.innerHTML = "No suggestions available.";
+    suggestionsDiv.innerHTML = "";
   } else {
     users.forEach((user) => {
       const suggestionItem = document.createElement("div");
@@ -148,3 +153,15 @@ document
       });
     }
   });
+
+document.addEventListener("click", function (event) {
+  const searchBar = document.getElementById("searchBar");
+  const suggestions = document.getElementById("suggestions");
+
+  if (
+    !searchBar.contains(event.target) &&
+    !suggestions.contains(event.target)
+  ) {
+    suggestions.classList.remove("active");
+  }
+});

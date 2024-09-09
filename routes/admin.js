@@ -16,12 +16,12 @@ router.get("/student/details", (req, res) => {
 });
 
 // student management
-router.get("/student", (req, res) => {
+router.get("/student/add", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/admin/student-management.html"));
 });
 
 // Student admission Detail/management
-router.post("/student/detail", async (req, res) => {
+router.post("/api/student/addDetail", async (req, res) => {
   try {
     const {
       Fname,
@@ -30,7 +30,7 @@ router.post("/student/detail", async (req, res) => {
       email,
       contact,
       address,
-      addmission_date,
+      admission_date,
       Course,
       Sem,
     } = req.body;
@@ -42,7 +42,7 @@ router.post("/student/detail", async (req, res) => {
       email,
       contact,
       address,
-      addmission_date,
+      admission_date,
       Course,
       Sem,
     );
@@ -54,15 +54,28 @@ router.post("/student/detail", async (req, res) => {
       Email: email,
       Contact: contact,
       Address: address,
-      AdmissionDate: addmission_date,
+      AdmissionDate: admission_date,
       Course,
       Semester: Sem,
     });
 
     await studentDetail.save();
-    res.send(`Data added successfully`);
+    res.status(200).json({ success: true, message: "Data added successfully" });
   } catch (error) {
-    res.status(500).send(`Error saving data: ${error.message}`);
+    console.error("Error saving data: ", error);
+    if (error.code === 11000) {
+      // Handle duplicate key error
+      res.status(400).json({
+        success: false,
+        message: `Duplicate key error: ${Object.keys(error.keyPattern).join(", ")} already exists.`,
+      });
+    } else {
+      // Handle other errors
+      res.status(500).json({
+        success: false,
+        message: `Error saving data: ${error.message}`,
+      });
+    }
   }
 });
 

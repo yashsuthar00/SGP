@@ -154,6 +154,7 @@ document
     }
   });
 
+// clear suggestion if user clicks outside
 document.addEventListener("click", function (event) {
   const searchBar = document.getElementById("searchBar");
   const suggestions = document.getElementById("suggestions");

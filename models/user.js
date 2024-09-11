@@ -41,11 +41,27 @@ const StudentDetailSchema = new mongoose.Schema({
   Semester: { type: String, required: true },
 });
 
+const StudentTimetableSchema = new mongoose.Schema({
+  day: { type: String, required: true },
+  Time: { type: String, required: true },
+  LH: { type: Number, required: true },
+  LAB: { type: String, required: true },
+  faculty_id: { type: String, required: true },
+  subject_id: { type: String, required: true },
+  dayTime: { type: String, required: true },
+  lectureDuration: { type: String, required: true },
+});
+
 // search id to find StudentData
 
 const admin = mongoose.model("admin", UserSchema, "adminLogin");
 const faculty = mongoose.model("faculty", UserSchema, "facultyLogin");
 const student = mongoose.model("student", UserSchema, "studentLogin");
+const studentTimetable = mongoose.model(
+  "studentTimetable",
+  StudentTimetableSchema,
+  "timetables",
+);
 
 const StudentDetail = mongoose.model(
   "StudentDetail",
@@ -53,4 +69,4 @@ const StudentDetail = mongoose.model(
   "studentDetail",
 );
 
-module.exports = { admin, faculty, student, StudentDetail };
+module.exports = { admin, faculty, student, StudentDetail, studentTimetable };

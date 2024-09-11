@@ -4,7 +4,13 @@ const path = require("path");
 require("dotenv").config();
 const router = express.Router();
 const bodyParser = require("body-parser");
-const { admin, faculty, student, StudentDetail } = require("../models/user.js");
+const {
+  admin,
+  faculty,
+  student,
+  StudentDetail,
+  studentTimetable,
+} = require("../models/user.js");
 
 // dash
 router.get("/dashboard", (req, res) => {
@@ -18,6 +24,11 @@ router.get("/student/details", (req, res) => {
 // student management
 router.get("/student/add", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/admin/student-management.html"));
+});
+
+// student timetable
+router.get("/student/timetable", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/admin/student-timetable.html"));
 });
 
 // Student admission Detail/management
@@ -170,6 +181,37 @@ router.put("/api/students/update", async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error", error });
+  }
+});
+
+router.get("/api/student/timetable", async (req, res) => {
+  try {
+    const timetable = await studentTimetable.aggregate([
+      {
+        $unwind: "$schedule",
+      },
+      { $match: { semester: 7, class_id: "CSEA" } },
+      {
+        $project: {
+          day: "$schedule.day",
+          Time: "$schedule.Time",
+          _id: 0,
+          LH: "$schedule.LH",
+          facultyId: "$schedule.faculty_id",
+          subjectId: "$schedule.subject_id",
+          LAB: "$schedule.LAB",
+          // dayTime: "$dayTime",
+        },
+      },
+    ]);
+
+    const time = await studentTimetable.findOne(
+      { class_id: "CSEA" },
+      { dayTime: 1, lectureDuration: 1, _id: 0 },
+    );
+    res.json({ timetable, time });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch data" });
   }
 });
 

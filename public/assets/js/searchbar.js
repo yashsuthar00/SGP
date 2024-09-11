@@ -20,14 +20,25 @@ async function performAutocomplete() {
 
 document
   .getElementById("searchBar")
-  .addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
+  .addEventListener("input", performAutocomplete);
+
+document
+  .getElementById("searchBar")
+  .addEventListener("keydown", function (event) {
+    if (event.key === "Enter" || event.key === "Tab") {
       event.preventDefault();
-      const query = event.target.value;
-      if (query) {
-        document.getElementById("suggestions").innerHTML = " ";
-        document.getElementById("suggestions").classList.remove("active");
-        SearchById();
+      const selectedSuggestion = document.querySelector(
+        ".suggestion-item.selected",
+      );
+      if (selectedSuggestion) {
+        selectSuggestion(selectedSuggestion.textContent);
+      } else {
+        const query = event.target.value;
+        if (query) {
+          document.getElementById("suggestions").innerHTML = "";
+          document.getElementById("suggestions").classList.remove("active");
+          SearchById();
+        }
       }
     }
   });
@@ -39,15 +50,22 @@ function displaySuggestions(users) {
   if (users.length === 0) {
     suggestionsDiv.innerHTML = "";
   } else {
-    users.forEach((user) => {
+    users.forEach((user, index) => {
       const suggestionItem = document.createElement("div");
       suggestionItem.className = "suggestion-item";
       suggestionItem.textContent = user.studentId;
       suggestionItem.onclick = () => selectSuggestion(user.studentId);
-      // suggestionItem.onclick = () => SearchById();
+      suggestionItem.onmouseover = () => highlightSuggestion(index);
       suggestionsDiv.appendChild(suggestionItem);
     });
   }
+}
+
+function highlightSuggestion(index) {
+  const suggestionItems = document.querySelectorAll(".suggestion-item");
+  suggestionItems.forEach((item, i) => {
+    item.classList.toggle("selected", i === index);
+  });
 }
 
 function selectSuggestion(name) {
@@ -82,8 +100,6 @@ function SearchById() {
       console.error("Error fetching data:", error);
     });
 }
-
-// update Data
 
 document
   .getElementById("studentData")
@@ -154,7 +170,6 @@ document
     }
   });
 
-// clear suggestion if user clicks outside
 document.addEventListener("click", function (event) {
   const searchBar = document.getElementById("searchBar");
   const suggestions = document.getElementById("suggestions");

@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <title>Document</title>
+        <style>
+            /* .secondchild {
+                        height: 200px;
+                        width: 200px;
+                        background-color: red;
+                    } */
+
+            body {
+                margin: 0;
+                padding: 0;
+                height: 100dvh;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .parent {
+                background-color: red;
+                display: grid;
+                /* grid-template-areas: "a"; */
+                grid-auto-rows: 75px;
+            }
+            .child {
+                border: 1px solid black;
+                text-align: center;
+                align-content: center;
+            }
+            .spam-item {
+                grid-column: span 2;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="parent" id="parent"></div>
+        <div id="timetable-list"></div>
+
+        <script>
+            const parent = document.getElementById("parent");
+
+            function createGrid(rows, cols, data) {
+                console.log(data);
+                parent.style.gridTemplateColumns = `repeat(${cols}, 170px)`;
+                parent.style.gridTemplateRows = `repeat(${rows}, 75px)`;
+
+                let colarr = [
+                    "",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                ];
+
+                let rowarr = [
+                    "",
+                    "8:05AM to 9:00AM",
+                    "9:00AM to 9:55AM",
+                    "9:55AM to 10:50AM",
+                    "10:50AM to 11:45AM",
+                    "11:45AM to 12:40PM",
+                    "12:40PM to 1:35PM",
+                    "1:35PM to 2:30PM",
+                    "2:30PM to 3:25PM",
+                ];
+                let lab = false;
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        let child = document.createElement("div");
+                        child.classList.add("child");
+
+                        if (row === 0 && col === 0) {
+                            child.innerHTML = "";
+                        } else if (col === 0 && row !== 0) {
+                            child.innerHTML = `${colarr[row]}`;
+                        } else if (row === 0 && col !== 0) {
+                            child.innerHTML = `${rowarr[col]}`;
+                        } else if (row !== 0 && col === 5) {
+                            child.innerHTML = `Lunch Break`;
+                        } else {
+                            // Assigning id to each cell based on day and time
+                            let cellId = `${colarr[row]}_${rowarr[col]}`;
+                            child.setAttribute("id", cellId);
+
+                            // Find the matching data for the current grid cell
+                            let matchingData = data.find(
+                                (item) =>
+                                    `${item.day}_${item.startTime} to ${item.endTime}` ===
+                                    cellId,
+                            );
+
+                            // If matching data is found, populate the cell, otherwise leave it empty
+                            if (matchingData) {
+                                if (matchingData.LH) {
+                                    child.innerHTML = `${matchingData.subjectId} - ${matchingData.facultyId} <br> LH - ${matchingData.LH}`;
+                                } else {
+                                    child.innerHTML = `${matchingData.subjectId} - ${matchingData.facultyId}`;
+                                }
+                            } else {
+                                child.innerHTML = "";
+                            }
+                        }
+
+                        parent.appendChild(child);
+                    }
+                }
+            }
+
+            // let day = "monday";
+            // let time = "8:05AM to 9:00Am";
+            // window.onload = function () {
+            //     alert("hello!");
+            //     alert("it's working");
+            //     const parent = document.getElementById("parent");
+            //     const child = document.createElement("div");
+
+            //     child.classList.add("child");
+            //     child.setAttribute("id", `${day}_${time}`);
+
+            //     parent.appendChild(child);
+            //     document
+            //         .getElementById(`${day}_${time}`)
+            //         .classList.add("secondchild");
+            // };
+            //
+
+            function timeStringToMinutes(timeStr) {
+                const [startTime, endTime] = timeStr.split(" to ");
+
+                function convertToMinutes(time) {
+                    const [hourMin, period] = time
+                        .match(/(\d{1,2}:\d{1,2})([APM]{2})/)
+                        .slice(1, 3);
+                    let [hours, minutes] = hourMin.split(":").map(Number);
+
+                    if (period === "PM" && hours !== 12) {
+                        hours += 12; // Convert PM hours to 24-hour format
+                    } else if (period === "AM" && hours === 12) {
+                        hours = 0;
+                    }
+
+                    return hours * 60 + minutes;
+                }
+
+                const startMinutes = convertToMinutes(startTime);
+                const endMinutes = convertToMinutes(endTime);
+
+                return {
+                    startMinutes,
+                    endMinutes,
+                    duration: endMinutes - startMinutes,
+                };
+            }
+
+            axios
+                .get("/admin/api/student/timetable")
+                .then((response) => {
+                    try {
+                        const { timetable, time } = response.data;
+                        // console.log(timetable);
+                        // console.log(dayTime);
+
+                        let dataArray = [];
+                        timetable.forEach((item) => {
+                            // console.log(item);
+
+                            const [startTime, endTime] =
+                                item.Time.split(" to ");
+                            if (item.LH) {
+                                dataArray.push({
+                                    day: `${item.day}`,
+                                    startTime: `${startTime}`,
+                                    endTime: `${endTime}`,
+                                    subjectId: `${item.subjectId}`,
+                                    facultyId: `${item.facultyId}`,
+                                    LH: `${item.LH}`,
+                                });
+                            } else {
+                                dataArray.push({
+                                    day: `${item.day}`,
+                                    startTime: `${startTime}`,
+                                    endTime: `${endTime}`,
+                                    subjectId: `${item.subjectId}`,
+                                    facultyId: `${item.facultyId}`,
+                                    LAB: `${item.LAB}`,
+                                });
+                            }
+                        });
+
+                        const timeRange = `${time.dayTime}`;
+
+                        const result = timeStringToMinutes(timeRange); //time duration of college in minutes
+                        console.log(result);
+                        createGrid(6, 9, dataArray);
+                    } catch (error) {
+                        console.error("Error processing data:", error);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
+        </script>
+    </body>
+</html>

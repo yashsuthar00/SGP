@@ -140,6 +140,9 @@ searchbar:hover {
 .searchbar img:hover {
     transform: scale(1.1);
 }
+.suggestion-item.selected {
+    background-color: #ddd;
+}
 
 .suggestions {
     border: 1px solid #ccc;

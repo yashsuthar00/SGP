@@ -70,6 +70,7 @@
                     "1:35PM to 2:30PM",
                     "2:30PM to 3:25PM",
                 ];
+
                 let lab = false;
                 for (let row = 0; row < rows; row++) {
                     for (let col = 0; col < cols; col++) {
@@ -86,14 +87,16 @@
                             child.innerHTML = `Lunch Break`;
                         } else {
                             // Assigning id to each cell based on day and time
-                            let cellId = `${colarr[row]}_${rowarr[col]}`;
+
+                            const [cellStartTime, cellEndTime] =
+                                rowarr[col].split(` to `); //split time to get cell start time
+                            let cellId = `${colarr[row]}_${cellStartTime}`;
                             child.setAttribute("id", cellId);
 
                             // Find the matching data for the current grid cell
                             let matchingData = data.find(
                                 (item) =>
-                                    `${item.day}_${item.startTime} to ${item.endTime}` ===
-                                    cellId,
+                                    `${item.day}_${item.startTime}` === cellId,
                             );
 
                             // If matching data is found, populate the cell, otherwise leave it empty
@@ -101,7 +104,9 @@
                                 if (matchingData.LH) {
                                     child.innerHTML = `${matchingData.subjectId} - ${matchingData.facultyId} <br> LH - ${matchingData.LH}`;
                                 } else {
-                                    child.innerHTML = `${matchingData.subjectId} - ${matchingData.facultyId}`;
+                                    child.innerHTML = `${matchingData.subjectId} - ${matchingData.facultyId} <br> LAB - ${matchingData.LAB}`;
+                                    child.style.gridColumn = "span 2";
+                                    col++;
                                 }
                             } else {
                                 child.innerHTML = "";

@@ -10,6 +10,7 @@ const {
   student,
   StudentDetail,
   studentTimetable,
+  department,
 } = require("../models/user.js");
 
 // dash
@@ -29,6 +30,13 @@ router.get("/student/add", (req, res) => {
 // student timetable
 router.get("/student/timetable", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/admin/student-timetable.html"));
+});
+
+// student new timetable
+router.get("/student/timetable/new", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "../public/admin/student-new-timetable.html"),
+  );
 });
 
 // Student admission Detail/management
@@ -184,13 +192,51 @@ router.put("/api/students/update", async (req, res) => {
   }
 });
 
-router.get("/api/student/timetable", async (req, res) => {
+router.get("/api/student/timetable/new", async (req, res) => {
+  try {
+    const Department = await department.find({}, { departmentId: 1, name: 1 });
+    res.json(Department);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+});
+
+router.get("/api/student/timetable/new/:department", async (req, res) => {
+  const { department } = req.params;
+  try {
+    const timetable = await studentTimetable.find({
+      department_id: new mongoose.Types.ObjectId(department),
+    });
+    res.json(timetable);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+});
+
+// router.get("/api/student/timetable/new/:classes", async (req, res) => {
+//   const { classes } = req.params;
+//   try {
+//     const timetable = await studentTimetable.find({
+//       department_id: new mongoose.Types.ObjectId(classes),
+//     });
+//     res.json(timetable);
+//   } catch (err) {
+//     res.status(500).json({ error: "Failed to fetch data" });
+//   }
+// });
+
+router.get("/api/student/timetable/:timetableId", async (req, res) => {
+  const { timetableId } = req.params;
   try {
     const timetable = await studentTimetable.aggregate([
       {
         $unwind: "$schedule",
       },
-      { $match: { semester: 7, class_id: "CSEA" } },
+      {
+        $match: {
+          _id: new mongoose.Types.ObjectId(timetableId), // Corrected ObjectId
+        },
+      },
       {
         $project: {
           day: "$schedule.day",
@@ -200,15 +246,16 @@ router.get("/api/student/timetable", async (req, res) => {
           facultyId: "$schedule.faculty_id",
           subjectId: "$schedule.subject_id",
           LAB: "$schedule.LAB",
-          // dayTime: "$dayTime",
+          Batch: "$schedule.Batch",
         },
       },
     ]);
 
     const time = await studentTimetable.findOne(
-      { class_id: "CSEA" },
+      { _id: new mongoose.Types.ObjectId(timetableId) }, // Corrected ObjectId syntax
       { dayTime: 1, lectureDuration: 1, _id: 0 },
     );
+
     res.json({ timetable, time });
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch data" });

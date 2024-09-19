@@ -36,13 +36,176 @@
             .spam-item {
                 grid-column: span 2;
             }
+
+            .container {
+                display: flex;
+                flex-direction: column;
+            }
         </style>
     </head>
     <body>
-        <div class="parent" id="parent"></div>
-        <div id="timetable-list"></div>
-
+        <div class="container">
+            <div>
+                <div>
+                    <label for="department-select">Choose a department:</label>
+                    <select id="department-select">
+                        <option value="">--Please choose an option--</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="class-select">Choose an class:</label>
+                    <select id="class-select" disabled>
+                        <option value="">
+                            --Please choose a department first--
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="parent" id="parent"></div>
+        </div>
         <script>
+            fetch("/admin/api/student/timetable/new")
+                .then((response) => response.json())
+                .then((data) => {
+                    const departmentSelect =
+                        document.getElementById("department-select");
+
+                    // Populate the first dropdown with categories
+                    data.forEach((category) => {
+                        const option = document.createElement("option");
+                        option.value = category._id;
+                        option.textContent = category.name;
+                        departmentSelect.appendChild(option);
+                    });
+                })
+                .catch((error) =>
+                    console.error("Error fetching categories:", error),
+                );
+
+            // Add event listener to the department dropdown
+            document
+                .getElementById("department-select")
+                .addEventListener("change", function () {
+                    const selectedDepartmentId = this.value;
+                    console.log(selectedDepartmentId);
+
+                    if (selectedDepartmentId) {
+                        fetch(
+                            `/admin/api/student/timetable/new/${selectedDepartmentId}`,
+                        )
+                            .then((response) => response.json())
+                            .then((data) => {
+                                const classSelect =
+                                    document.getElementById("class-select");
+                                classSelect.innerHTML = "";
+                                classSelect.disabled = false;
+
+                                if (!data || data.length === 0) {
+                                    const option =
+                                        document.createElement("option");
+                                    option.textContent = "No data Found";
+                                    classSelect.appendChild(option);
+                                } else {
+                                    const option =
+                                        document.createElement("option");
+                                    option.value = "";
+                                    option.textContent =
+                                        "--Please choose an option--";
+                                    classSelect.appendChild(option);
+                                    data.forEach((item) => {
+                                        if (item && item._id && item.class_id) {
+                                            const option =
+                                                document.createElement(
+                                                    "option",
+                                                );
+                                            option.value = item._id;
+                                            option.textContent = item.class_id;
+                                            classSelect.appendChild(option);
+                                        }
+                                    });
+                                }
+                            })
+                            .catch((error) =>
+                                console.error("Error fetching classes:", error),
+                            );
+                    } else {
+                        // Disable the second dropdown if no department is selected
+                        document.getElementById("class-select").disabled = true;
+                        document.getElementById("class-select").innerHTML =
+                            '<option value="">--Please choose a department first--</option>';
+                    }
+                });
+
+            document
+                .getElementById("class-select")
+                .addEventListener("change", function () {
+                    const selectedClassId = this.value;
+                    console.log(selectedClassId);
+
+                    if (selectedClassId) {
+                        axios
+                            .get(
+                                `/admin/api/student/timetable/${selectedClassId}`,
+                            )
+                            .then((response) => {
+                                try {
+                                    const { timetable, time } = response.data;
+                                    // console.log(timetable);
+                                    // console.log(dayTime);
+
+                                    let dataArray = [];
+                                    timetable.forEach((item) => {
+                                        // console.log(item);
+
+                                        const [startTime, endTime] =
+                                            item.Time.split(" to ");
+                                        if (item.LH) {
+                                            dataArray.push({
+                                                day: `${item.day}`,
+                                                startTime: `${startTime}`,
+                                                endTime: `${endTime}`,
+                                                subjectId: `${item.subjectId}`,
+                                                facultyId: `${item.facultyId}`,
+                                                LH: `${item.LH}`,
+                                            });
+                                        } else {
+                                            dataArray.push({
+                                                day: `${item.day}`,
+                                                startTime: `${startTime}`,
+                                                endTime: `${endTime}`,
+                                                subjectId: `${item.subjectId}`,
+                                                facultyId: `${item.facultyId}`,
+                                                LAB: `${item.LAB}`,
+                                                Batch: `${item.Batch}`,
+                                            });
+                                        }
+                                    });
+
+                                    const timeRange = `${time.dayTime}`;
+
+                                    const result =
+                                        timeStringToMinutes(timeRange); //time duration of college in minutes
+                                    console.log(result);
+
+                                    if (parent.innerHTML) {
+                                        parent.innerHTML = "";
+                                        createGrid(6, 9, dataArray);
+                                    } else {
+                                        createGrid(6, 9, dataArray);
+                                    }
+                                } catch (error) {
+                                    console.error(
+                                        "Error processing data:",
+                                        error,
+                                    );
+                                }
+                            })
+                            .catch((error) => {
+                                console.error("Error fetching data:", error);
+                            });
+                    }
+                });
+
             const parent = document.getElementById("parent");
 
             function createGrid(rows, cols, data) {
@@ -104,7 +267,7 @@
                                 if (matchingData.LH) {
                                     child.innerHTML = `${matchingData.subjectId} - ${matchingData.facultyId} <br> LH - ${matchingData.LH}`;
                                 } else {
-                                    child.innerHTML = `${matchingData.subjectId} - ${matchingData.facultyId} <br> LAB - ${matchingData.LAB}`;
+                                    child.innerHTML = `${matchingData.Batch} : ${matchingData.subjectId} - ${matchingData.facultyId} <br> LAB - ${matchingData.LAB}`;
                                     child.style.gridColumn = "span 2";
                                     col++;
                                 }
@@ -117,24 +280,6 @@
                     }
                 }
             }
-
-            // let day = "monday";
-            // let time = "8:05AM to 9:00Am";
-            // window.onload = function () {
-            //     alert("hello!");
-            //     alert("it's working");
-            //     const parent = document.getElementById("parent");
-            //     const child = document.createElement("div");
-
-            //     child.classList.add("child");
-            //     child.setAttribute("id", `${day}_${time}`);
-
-            //     parent.appendChild(child);
-            //     document
-            //         .getElementById(`${day}_${time}`)
-            //         .classList.add("secondchild");
-            // };
-            //
 
             function timeStringToMinutes(timeStr) {
                 const [startTime, endTime] = timeStr.split(" to ");
@@ -163,54 +308,6 @@
                     duration: endMinutes - startMinutes,
                 };
             }
-
-            axios
-                .get("/admin/api/student/timetable")
-                .then((response) => {
-                    try {
-                        const { timetable, time } = response.data;
-                        // console.log(timetable);
-                        // console.log(dayTime);
-
-                        let dataArray = [];
-                        timetable.forEach((item) => {
-                            // console.log(item);
-
-                            const [startTime, endTime] =
-                                item.Time.split(" to ");
-                            if (item.LH) {
-                                dataArray.push({
-                                    day: `${item.day}`,
-                                    startTime: `${startTime}`,
-                                    endTime: `${endTime}`,
-                                    subjectId: `${item.subjectId}`,
-                                    facultyId: `${item.facultyId}`,
-                                    LH: `${item.LH}`,
-                                });
-                            } else {
-                                dataArray.push({
-                                    day: `${item.day}`,
-                                    startTime: `${startTime}`,
-                                    endTime: `${endTime}`,
-                                    subjectId: `${item.subjectId}`,
-                                    facultyId: `${item.facultyId}`,
-                                    LAB: `${item.LAB}`,
-                                });
-                            }
-                        });
-
-                        const timeRange = `${time.dayTime}`;
-
-                        const result = timeStringToMinutes(timeRange); //time duration of college in minutes
-                        console.log(result);
-                        createGrid(6, 9, dataArray);
-                    } catch (error) {
-                        console.error("Error processing data:", error);
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error fetching data:", error);
-                });
         </script>
     </body>
 </html>

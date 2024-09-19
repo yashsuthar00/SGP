@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const { error } = require("console");
 const cors = require("cors");
 const path = require("path");
+const Swal = require("sweetalert2");
 const { admin, faculty, student, StudentDetail } = require("./models/user");
 require("dotenv").config();
 

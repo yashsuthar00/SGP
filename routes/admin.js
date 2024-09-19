@@ -4,7 +4,14 @@ const path = require("path");
 require("dotenv").config();
 const router = express.Router();
 const bodyParser = require("body-parser");
-const { admin, faculty, student, StudentDetail } = require("../models/user.js");
+const {
+  admin,
+  faculty,
+  student,
+  StudentDetail,
+  studentTimetable,
+  department,
+} = require("../models/user.js");
 
 // dash
 router.get("/dashboard", (req, res) => {
@@ -16,12 +23,24 @@ router.get("/student/details", (req, res) => {
 });
 
 // student management
-router.get("/student", (req, res) => {
+router.get("/student/add", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/admin/student-management.html"));
 });
 
+// student timetable
+router.get("/student/timetable", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/admin/student-timetable.html"));
+});
+
+// student new timetable
+router.get("/student/timetable/new", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "../public/admin/student-new-timetable.html"),
+  );
+});
+
 // Student admission Detail/management
-router.post("/student/detail", async (req, res) => {
+router.post("/api/student/addDetail", async (req, res) => {
   try {
     const {
       Fname,
@@ -30,7 +49,7 @@ router.post("/student/detail", async (req, res) => {
       email,
       contact,
       address,
-      addmission_date,
+      admission_date,
       Course,
       Sem,
     } = req.body;
@@ -42,7 +61,7 @@ router.post("/student/detail", async (req, res) => {
       email,
       contact,
       address,
-      addmission_date,
+      admission_date,
       Course,
       Sem,
     );
@@ -54,15 +73,28 @@ router.post("/student/detail", async (req, res) => {
       Email: email,
       Contact: contact,
       Address: address,
-      AdmissionDate: addmission_date,
+      AdmissionDate: admission_date,
       Course,
       Semester: Sem,
     });
 
     await studentDetail.save();
-    res.send(`Data added successfully`);
+    res.status(200).json({ success: true, message: "Data added successfully" });
   } catch (error) {
-    res.status(500).send(`Error saving data: ${error.message}`);
+    console.error("Error saving data: ", error);
+    if (error.code === 11000) {
+      // Handle duplicate key error
+      res.status(400).json({
+        success: false,
+        message: `Duplicate key error: ${Object.keys(error.keyPattern).join(", ")} already exists.`,
+      });
+    } else {
+      // Handle other errors
+      res.status(500).json({
+        success: false,
+        message: `Error saving data: ${error.message}`,
+      });
+    }
   }
 });
 
@@ -157,6 +189,76 @@ router.put("/api/students/update", async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error", error });
+  }
+});
+
+router.get("/api/student/timetable/new", async (req, res) => {
+  try {
+    const Department = await department.find({}, { departmentId: 1, name: 1 });
+    res.json(Department);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+});
+
+router.get("/api/student/timetable/new/:department", async (req, res) => {
+  const { department } = req.params;
+  try {
+    const timetable = await studentTimetable.find({
+      department_id: new mongoose.Types.ObjectId(department),
+    });
+    res.json(timetable);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+});
+
+// router.get("/api/student/timetable/new/:classes", async (req, res) => {
+//   const { classes } = req.params;
+//   try {
+//     const timetable = await studentTimetable.find({
+//       department_id: new mongoose.Types.ObjectId(classes),
+//     });
+//     res.json(timetable);
+//   } catch (err) {
+//     res.status(500).json({ error: "Failed to fetch data" });
+//   }
+// });
+
+router.get("/api/student/timetable/:timetableId", async (req, res) => {
+  const { timetableId } = req.params;
+  try {
+    const timetable = await studentTimetable.aggregate([
+      {
+        $unwind: "$schedule",
+      },
+      {
+        $match: {
+          _id: new mongoose.Types.ObjectId(timetableId), // Corrected ObjectId
+        },
+      },
+      {
+        $project: {
+          day: "$schedule.day",
+          Time: "$schedule.Time",
+          _id: 0,
+          LH: "$schedule.LH",
+          facultyId: "$schedule.faculty_id",
+          subjectId: "$schedule.subject_id",
+          LAB: "$schedule.LAB",
+          Batch: "$schedule.Batch",
+        },
+      },
+    ]);
+
+    const time = await studentTimetable.findOne(
+      { _id: new mongoose.Types.ObjectId(timetableId) }, // Corrected ObjectId syntax
+      { dayTime: 1, lectureDuration: 1, _id: 0 },
+    );
+
+    res.json({ timetable, time });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch data" });
   }
 });
 

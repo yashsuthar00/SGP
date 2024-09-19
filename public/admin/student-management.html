@@ -10,12 +10,13 @@
             href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
         />
         <link rel="stylesheet" href="/assets/css/form.css" />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <title>Student Admission form</title>
     </head>
     <body>
         <div class="container">
-            <form action="/admin/student/detail" method="post">
+            <form id="addData">
                 <div class="form">
                     <div class="details personal">
                         <span class="title">Personal Details</span>
@@ -91,11 +92,11 @@
                                 />
                             </div>
                             <div class="input-field">
-                                <label>Addmission Date</label>
+                                <label>Admission Date</label>
                                 <input
                                     type="date"
-                                    name="addmission_date"
-                                    id="addmission_date"
+                                    name="admission_date"
+                                    id="admission_date"
                                     placeholder="Address"
                                     required
                                 />
@@ -147,7 +148,7 @@
 					        </select>
                         </div> -->
                         </div>
-                        <button class="sumbit">
+                        <button class="sumbit" type="submit">
                             <span class="btnText">Save</span>
                             <i class="uil uil-navigator"></i>
                         </button>
@@ -157,10 +158,73 @@
         </div>
 
         <script>
-            const form = document.querySelector("form"),
-                nextBtn = form.querySelector(".nextBtn"),
-                backBtn = form.querySelector(".backBtn"),
-                allInput = form.querySelectorAll(".first input");
+            document
+                .getElementById("addData")
+                .addEventListener("submit", async (event) => {
+                    event.preventDefault();
+
+                    const Fname = document.getElementById("firstName").value;
+                    const Lname = document.getElementById("lastName").value;
+                    const dob = document.getElementById("dob").value;
+                    const email = document.getElementById("email").value;
+                    const contact = document.getElementById("contact").value;
+                    const address = document.getElementById("address").value;
+                    const admission_date =
+                        document.getElementById("admission_date").value;
+                    const Course = document.getElementById("course").value;
+                    const Sem = document.getElementById("Sem").value;
+
+                    const studentData = {
+                        Fname,
+                        Lname,
+                        dob,
+                        email,
+                        contact,
+                        address,
+                        admission_date,
+                        Course,
+                        Sem,
+                    };
+
+                    try {
+                        const response = await fetch(
+                            "/admin/api/student/addDetail",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify(studentData),
+                            },
+                        );
+
+                        const result = await response.json();
+                        console.log(result);
+
+                        if (result.success) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Success",
+                                text: "Data added successfully!",
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: `Error saving data: ${result.message}`,
+                                confirmButtonColor: "#d33",
+                            });
+                        }
+                    } catch (error) {
+                        console.error("Error updating student:", error);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: `Error saving data: ${error.message}`,
+                            confirmButtonColor: "#d33",
+                        });
+                    }
+                });
         </script>
     </body>
 </html>

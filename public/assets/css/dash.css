@@ -7,13 +7,23 @@
         width: 100%;
         font-family: 'Poppins', sans-serif;
     }
-    .container{
+    .dash-container{
         display: flex;
         height: 100dvh;
         width: 100%;
     }
     label.open, label.close, input[type="checkbox" i]{
         display: none;
+    }
+    .fa-bars{
+        font-size: 1.3em;
+        right: -15px;
+        top:8px
+    } 
+    .fa-times{
+        font-size: 1.5em;
+        right: -15px;
+        top:8px
     }
     @media (max-width: 319px){
         body{
@@ -28,6 +38,8 @@
             min-width: 300px;
             height: 100vh;
             background-color: #dce8f5;
+            border-top-right-radius: 50px;
+            border-bottom-right-radius: 30px;
             box-shadow:  0 0 8px #000;
             position: fixed;
             top: 0;
@@ -41,12 +53,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            background-color: #dce8f5;
             font-size: 1rem;
-            background: url("./images/bg.jpg");
-            background-repeat: no-repeat;
-            background-size: cover;
-            position: relative;
             z-index: 10;
         }
         .slidebar .profile::after {
@@ -57,7 +64,6 @@
             top: 0;
             left: 0;
             right: 0;
-            background-color: #dce8f5;
             z-index: -11;
         }
         .profile img {
@@ -175,6 +181,8 @@
         min-width: 300px;
         height: 100vh;
         background-color: #dce8f5;
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 30px;
         box-shadow:  0 0 8px #000;
         position: fixed;
         top: 0;
@@ -188,12 +196,7 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        background-color: #dce8f5;
         font-size: 1rem;
-        background: url("./images/bg.jpg");
-        background-repeat: no-repeat;
-        background-size: cover;
-        position: relative;
         z-index: 10;
     }
     .slidebar .profile::after {
@@ -204,7 +207,6 @@
         top: 0;
         left: 0;
         right: 0;
-        background-color: #dce8f5;
         z-index: -11;
     }
     .profile img {
@@ -313,7 +315,7 @@
                 left: 0;
             }
             img {
-                margin-left: 5px;
+                margin-left: 5p;
             }
         }
 

@@ -12,15 +12,688 @@
         height: 100dvh;
         width: 100%;
     }
-    
-    
-    
-    @media (min-width: 1024px) and (max-width: 1280px) {
-    
+    label.open, label.close, input[type="checkbox" i]{
+        display: none;
+    }
+    @media (max-width: 319px){
+        body{
+            display: none;
+        }
+    }
+    @media (min-width: 320px) and (max-width: 480px) {
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+        .slidebar {
+            max-width: 300px;
+            min-width: 300px;
+            height: 100vh;
+            background-color: #dce8f5;
+            box-shadow:  0 0 8px #000;
+            position: fixed;
+            top: 0;
+            left: -100%;
+            transition: 0.5s ease;
+        }
+        .slidebar .profile {
+            width: 100%;
+            height: 110px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #dce8f5;
+            font-size: 1rem;
+            background: url("./images/bg.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            z-index: 10;
+        }
+        .slidebar .profile::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #dce8f5;
+            z-index: -11;
+        }
+        .profile img {
+            width: 20%;
+            clip-path: circle();
+            box-shadow: 0 0 4px #000;
+        }
+        .slidebar nav {
+            width: 100%;
+        }
+        .slidebar nav .sidebar-menu {
+            list-style: none;
+        }
+        label.open, label.close, input[type="checkbox" i]{
+            display:block;
+        }
+        .calendar{
+            display: none;
+        }
+        .slidebar nav .sidebar-menu li a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            text-transform: capitalize;
+            padding: 20px;
+            transition: 0.5s ease;
+        }
+        .sidebar-menu{
+            padding: 10px 0 0 0;
+        }
+        .menu-icon{
+                    width: 30px;
+                    height: auto;
+                    margin-right: 50px;
+                }
+                .menu-item {
+                    display: flex;
+                    align-items: center;
+                    color: #333;
+                    text-decoration: none;
+                    margin-bottom: 10px;
+                    border-radius: 5px;
+                    transition: background-color 0.3s;
+                }
+        
+                .menu-item.active, .menu-item:hover {
+                    background-color: #d1e1fc;
+                }
+                .dropdown-btn:hover{
+                    background-color: #d1e1fc;
+                }
+                /* Dropdown Content */
+                .dropdown-content {
+                    max-height: 0;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    margin-left: 5em;
+                    overflow: hidden;
+                    transition: max-height 0.3s ease, padding 0.3s ease;
+                    padding-left: 10px;
+                }
+        
+                .dropdown-content a {
+                    display: block;
+                    padding: 8px 0;
+                    color: #333;
+                    text-decoration: none;
+                }
+                .dropdown-btn {
+                    width: 100%;
+                    margin-bottom: 10px;
+                    background-color: #dce8f5;
+                    border: none;
+                    text-align: left;
+                    cursor: pointer;
+                    outline: none;
+                    transition: background-color 0.3s ease;
+                    font-size: 16px;
+                    color: #333;
+                    font-family: 'Poppins', sans-serif;
+                    align-self: center;
+                }
+                .slidebar  nav .sidebar-menu li a i {
+                    margin-right: 15px;
+                }
+                .close {
+                    cursor: pointer;
+                    position: absolute;
+                    top: 2px;
+                    right: 10px;
+                }
+                .open {
+                    cursor: pointer;
+                    position: absolute;
+                    top: 2px;
+                    left: 10px;
+                    color: black;
+                    font-size: 1.5rem;
+                }
+                #check {
+                    display: none;
+                }
+                #check:checked ~ .slidebar {
+                    left: 0;
+                }
     
     }
     
-    @media (min-width: 1281px) and (max-width: 1440px) {
+@media (min-width: 481px) and (max-width: 767px) {
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+    .slidebar {
+        max-width: 300px;
+        min-width: 300px;
+        height: 100vh;
+        background-color: #dce8f5;
+        box-shadow:  0 0 8px #000;
+        position: fixed;
+        top: 0;
+        left: -100%;
+        transition: 0.5s ease;
+    }
+    .slidebar .profile {
+        width: 100%;
+        height: 110px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #dce8f5;
+        font-size: 1rem;
+        background: url("./images/bg.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        z-index: 10;
+    }
+    .slidebar .profile::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: #dce8f5;
+        z-index: -11;
+    }
+    .profile img {
+        width: 20%;
+        clip-path: circle();
+        box-shadow: 0 0 4px #000;
+    }
+    .slidebar nav {
+        width: 100%;
+    }
+    .slidebar nav .sidebar-menu {
+        list-style: none;
+    }
+    label.open, label.close, input[type="checkbox" i]{
+        display:block;
+    }
+    .calendar{
+        display: none;
+    }
+    .slidebar nav .sidebar-menu li a {
+        display: block;
+        text-decoration: none;
+        color: #333;
+        text-transform: capitalize;
+        padding: 20px;
+        transition: 0.5s ease;
+    }
+    .sidebar-menu{
+        padding: 10px 0 0 0;
+    }
+    .menu-icon{
+                width: 30px;
+                height: auto;
+                margin-right: 50px;
+            }
+            .menu-item {
+                display: flex;
+                align-items: center;
+                /* padding: 5px; */
+                color: #333;
+                text-decoration: none;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+            }
+    
+            .menu-item.active, .menu-item:hover {
+                background-color: #d1e1fc;
+            }
+            .dropdown-btn:hover{
+                background-color: #d1e1fc;
+            }
+            /* Dropdown Content */
+            .dropdown-content {
+                max-height: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-left: 5em;
+                overflow: hidden;
+                transition: max-height 0.3s ease, padding 0.3s ease;
+                padding-left: 10px;
+            }
+    
+            .dropdown-content a {
+                display: block;
+                padding: 8px 0;
+                color: #333;
+                text-decoration: none;
+            }
+            .dropdown-btn {
+                width: 100%;
+                margin-bottom: 10px;
+                background-color: #dce8f5;
+                border: none;
+                text-align: left;
+                cursor: pointer;
+                outline: none;
+                transition: background-color 0.3s ease;
+                font-size: 16px;
+                color: #333;
+                font-family: 'Poppins', sans-serif;
+                align-self: center;
+            }
+            .slidebar  nav .sidebar-menu li a i {
+                margin-right: 15px;
+            }
+            .close {
+                cursor: pointer;
+                position: absolute;
+                top: 2px;
+                right: 10px;
+            }
+            .open {
+                cursor: pointer;
+                position: absolute;
+                top: 2px;
+                left: 10px;
+                color: black;
+                font-size: 1.5rem;
+            }
+            #check {
+                display: none;
+            }
+            #check:checked ~ .slidebar {
+                left: 0;
+            }
+            img {
+                margin-left: 5px;
+            }
+        }
+
+    @media (min-width: 767px) and (max-width: 1024px) {
+
+        .profile {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            padding: 4px;
+            margin: 4px 0;
+        }
+    
+        .profile img {
+            margin: 2px 0 8px;
+            width: 70px;
+            height: auto;
+            border-radius: 50%;
+        }
+    
+        .slidebar {
+            background-color: #dce8f5;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            flex-shrink: 1;
+            flex-basis: 30%; /* Increased to give more width to the sidebar */
+            height: 100vh;
+            width: 100%;
+            max-width: 260px;
+            overflow: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+    
+        .menu-icon {
+            width: 24px;
+            height: auto;
+            margin-right: 25px;
+        }
+    
+        .dropdown-btn {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 5px;
+            background-color: #dce8f5;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s ease;
+            font-size: 1.2rem;
+            font-family: 'Poppins', sans-serif;
+        }
+    
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 6px;
+            color: #333;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+    
+        .menu-item.active, .menu-item:hover {
+            background-color: #d1e1fc;
+        }
+    
+        .dropdown-btn:hover {
+            background-color: #d1e1fc;
+        }
+    
+        .dropdown-content {
+            max-height: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-left: 3.5em;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding-left: 6px;
+        }
+    
+        .dropdown-content a {
+            display: block;
+            padding: 4px 0;
+            color: #333;
+            text-decoration: none;
+        }
+    
+        .dropdown-content a:hover {
+            color: firebrick;
+        }
+    
+        .main {
+            background-color: aliceblue;
+            display: flex;
+            flex-grow: 1;
+            flex-shrink: 2;
+            flex-basis: 45%;
+            height: 100vh;
+            width: 100%;
+        }
+        .calendar{
+            display: none;
+        }
+    }
+    @media (min-width: 1024px) and (max-width: 1280px) {
+
+        .profile {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            padding: 6px;
+            margin: 6px 0;
+        }
+    
+        .profile img {
+            margin: 3px 0 10px;
+            width: 80px;
+            height: auto;
+            border-radius: 50%;
+        }
+    
+        .slidebar {
+            background-color: #dce8f5;
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            flex-shrink: 1;
+            flex-basis: 25%; /* Slightly wider for medium screens */
+            height: 100vh;
+            width: 100%;
+            overflow: auto; /* Ensure smooth scrolling */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+    
+        .menu-icon {
+            width: 26px;
+            height: auto;
+            margin-right: 30px;
+        }
+    
+        .dropdown-btn {
+            width: 100%;
+            padding: 6px;
+            margin-bottom: 6px;
+            background-color: #dce8f5;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s ease;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+        }
+    
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 6px;
+            color: #333;
+            text-decoration: none;
+            margin-bottom: 6px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+    
+        .menu-item.active, .menu-item:hover {
+            background-color: #d1e1fc;
+        }
+    
+        .dropdown-btn:hover {
+            background-color: #d1e1fc;
+        }
+    
+        .dropdown-content {
+            max-height: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-left: 4em;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding-left: 6px;
+        }
+    
+        .dropdown-content a {
+            display: block;
+            padding: 5px 0;
+            color: #333;
+            text-decoration: none;
+        }
+    
+        .dropdown-content a:hover {
+            color: firebrick;
+        }
+    
+        .main {
+            background-color: aliceblue;
+            display: flex;
+            flex-grow: 1;
+            flex-shrink: 2;
+            flex-basis: 50%;
+            height: 100vh;
+            width: 100%;
+        }
+    
+        .calendar {
+            background-color: #dce8f5;
+            display: flex;
+            flex-grow: 1;
+            flex-shrink: 1;
+            flex-basis: 25%;
+            height: 100vh;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+    
+        .child-calendar {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 12px;
+            max-width: 260px;
+            margin: 10px 0 0 8px;
+            height: 14em;
+        }
+    
+        .calendar .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #333;
+        }
+    
+        #prev-month, #next-month {
+            width: 35px;
+        }
+    
+        .calendar .months {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 8px;
+        }
+    
+        .cal-icon {
+            width: 18px;
+            height: auto;
+        }
+    
+        .calendar button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: #333;
+        }
+    
+        .calendar button:hover {
+            color: #0066cc;
+        }
+    
+        .calendar .days table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+    
+        .calendar .days th,
+        .calendar .days td {
+            padding: 6px;
+            text-align: center;
+            color: #333;
+            font-size: 12px;
+        }
+    
+        .calendar .days th {
+            color: #666;
+        }
+    
+        .calendar .days td:hover {
+            background-color: #d1e1fc;
+            cursor: pointer;
+            border-radius: 10%;
+        }
+    
+        .calendar .days .active {
+            background-color: #0066cc;
+            color: white;
+            border-radius: 10%;
+        }
+    
+        .event-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 18px;
+            max-width: 300px;
+            margin: 10px 0 10px 8px;
+            height: auto;
+        }
+    
+        .event-header {
+            margin-bottom: 8px;
+        }
+    
+        .event-header h2 {
+            color: #333;
+        }
+    
+        .event-header p {
+            color: #666;
+        }
+    
+        .events {
+            display: flex;
+            flex-direction: column;
+        }
+    
+        .event-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 8px 0 0 8px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    
+        .event-status {
+            margin-right: 8px;
+        }
+    
+        .status-indicator {
+            width: 6px;
+            height: 100%;
+            border-radius: 4px;
+        }
+    
+        .event-details h3 {
+            color: #333;
+        }
+    
+        .event-details p {
+            color: #666;
+            margin: 0;
+        }
+    
+        .event-item:hover {
+            background-color: #e7f1fc;
+        }
+    
+        .event-item .status-indicator.red {
+            background-color: #ff4d4d;
+        }
+    
+        .event-item .status-indicator.orange {
+            background-color: #ffa500;
+        }
+    
+        .event-item .status-indicator.yellow {
+            background-color: #ffd700;
+        }
+    
+        .event-item .status-indicator.green {
+            background-color: #4caf50;
+        }
+    }
+    
         @media (min-width: 1281px) and (max-width: 1440px) {
         
             .profile {
@@ -136,9 +809,6 @@
                 height: 100vh;
                 width: 100%;
             }
-        }
-        
-    
         .child-calendar {
             background-color: white;
             border-radius: 12px;
@@ -320,13 +990,16 @@
                 flex-basis: 20%;
                 height: 100dvh;
                 width: 100%;
-                /* min-width:250px; */
-                /* max-width: 300px; */
                 overflow: scroll;
                 scrollbar-width:none; /* Firefox */
                 -ms-overflow-style:none; /* IE and Edge */
             }
-            
+            .check{
+                appearance: none;
+            }
+            .fas{
+                appearance: none;
+            }
             
             .menu-icon{
                 width: 30px;
@@ -346,7 +1019,6 @@
                 transition: background-color 0.3s ease;
                 font-size: 16px;
                 font-family: 'Poppins', sans-serif;
-                /* margin-left: 60px; */
                 align-self: center;
             }
     
@@ -361,14 +1033,6 @@
                 border-radius: 5px;
                 transition: background-color 0.3s;
             }
-    
-            /* .menu-item i {
-                width: 30px;
-                height: auto;
-                margin-right: 30px;
-                font-size: 18px;
-                align-self: flex-start;
-            } */
     
             .menu-item.active, .menu-item:hover {
                 background-color: #d1e1fc;

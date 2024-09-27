@@ -4,12 +4,16 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="../assets/css/dash.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
         <title>Admin dashboard</title>
     </head>
     <body>
-        <div class="container">
-            <div class="slidebar">
+        <div class="dash-container">
+            <input type="checkbox" id="check">
+            <label for="check" class="open"><i class="fas fa-bars"></i></label>
+            <div class="slidebar" id="slidebar">
                 <div class="profile">
+                    <label for="check" class="close"><i class="fas fa-times"></i></label>
                     <img
                         src="../assets/images/admin profile.jpg"
                         alt="Profile Picture"
@@ -24,8 +28,7 @@
                             class="menu-icon"
                             src="../assets/images/dashboard.png"
                             alt=""
-                        />Dashboard</a
-                    >
+                        />Dashboard</a>
 
                     <!-- Faculty Dropdown -->
                     <button class="dropdown-btn">
@@ -72,12 +75,12 @@
                             alt=""
                         />Courses</a
                     >
-                    <a href="#" class="menu-item"
+                    <a href="/admin/student/timetable/new" class="menu-item"
                         ><img
                             class="menu-icon"
                             src="../assets/images/calendar.png"
                             alt=""
-                        />Time Table</a
+                        />Create Time Table</a
                     >
                     <a href="#" class="menu-item"
                         ><img
@@ -174,6 +177,30 @@
         </div>
 
         <script>
+
+                let checked = false;
+                    document.addEventListener("click", function (event) {
+                const slideBar = document.getElementById("slidebar");
+                    const menu = document.querySelector("#check");
+                if (menu.contains(event.target)){
+                        if (!checked) {
+                        document.getElementById("check").checked = true;
+                            
+                            checked = true;
+                            
+                    }else {
+                        document.getElementById("check").checked = false;
+                        checked = false;
+                        }
+
+                }else if (
+                    !slideBar.contains(event.target)
+                ) {
+                    document.getElementById("check").checked = false;
+                }
+                });
+
+
             document.addEventListener("DOMContentLoaded", function () {
                 const dropdownBtns = document.querySelectorAll(".dropdown-btn");
 

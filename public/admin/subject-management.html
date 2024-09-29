@@ -4,16 +4,14 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <link rel="stylesheet" href="/assets/css/slidebar.css">
         <link rel="stylesheet" href="/assets/css/form.css" />
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <title>Student Logs</title>
+        <title>Subject Management</title>
     </head>
     <body>
-        <div class="dash-container" style="width:0;"></div>
+        <div class="dash-container">
             <input type="checkbox" id="check">
             <label for="check" class="open"><i class="fas fa-bars"></i></label>
             <div class="slidebar" id="slidebar">
@@ -106,108 +104,77 @@
             </div>
         </div>
         <div class="parent-container">
-            <!-- search bar -->
-            <div class="searchbar">
-                <input
-                    type="text"
-                    id="searchBar"
-                    placeholder="Search ID"
-                    oninput="performAutocomplete()"
-                />
-                <img
-                    src="/assets/images/search.png"
-                    onclick="SearchById()"
-                    alt="search icon"
-                />
-                <div id="suggestions" class="suggestions"></div>
-            </div>
-
-            <!-- form -->
             <div class="container">
-                <form id="studentData">
+                <form id="addData">
                     <div class="form">
                         <div class="details personal">
-                            <span class="title">Student Details</span>
+                            <span class="title">Subject Details</span>
+
                             <div class="fields">
                                 <div class="input-field">
-                                    <label>First Name</label>
+                                    <label>Subject Name</label>
                                     <input
                                         type="text"
-                                        name="Fname"
-                                        id="firstName"
-                                        placeholder="Enter your name"
+                                        name="subName"
+                                        id="subName"
+                                        placeholder="Enter Subject Name"
                                         required
                                     />
                                 </div>
 
                                 <div class="input-field">
-                                    <label>Last Name</label>
+                                    <label>Subject Code</label>
                                     <input
                                         type="text"
-                                        name="Lname"
-                                        id="lastName"
-                                        placeholder="Enter your name"
+                                        name="subCode"
+                                        id="subCode"
+                                        placeholder="Enter Subject Code"
                                         required
                                     />
                                 </div>
 
                                 <div class="input-field">
-                                    <label>Date of Birth</label>
+                                    <label>Subject ShortName</label>
                                     <input
-                                        type="date"
-                                        name="dob"
-                                        id="dob"
-                                        placeholder="Enter birth date"
+                                        type="text"
+                                        name="subShortName"
+                                        id="subShortName"
+                                        placeholder="Enter Subject ShortName"
                                         required
                                     />
                                 </div>
 
                                 <div class="input-field">
-                                    <label>Email</label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        id="email"
-                                        placeholder="Enter your email"
-                                        required
-                                    />
-                                </div>
-
-                                <div class="input-field">
-                                    <label>Contact</label>
+                                    <label>Subject Credit</label>
                                     <input
                                         type="number"
-                                        name="contact"
-                                        id="contact"
-                                        placeholder="Enter mobile number"
+                                        name="subCredit"
+                                        id="subCredit"
+                                        placeholder="Credit Point Ex: 3/4"
                                         required
                                     />
                                 </div>
 
                                 <div class="input-field">
-                                    <label>Address</label>
-                                    <input
-                                        type="text"
-                                        name="address"
-                                        id="address"
-                                        placeholder="Address"
-                                        required
-                                    />
+                                    <label>Offered Semester</label>
+                                    <select name="offeredSemester" id="offeredSemester">
+                                        <option value="" disabled selected>
+                                            Select your Semester
+                                        </option>
+                                        <option value="1">Semester 1</option>
+                                        <option value="2">Semester 2</option>
+                                        <option value="3">Semester 3</option>
+                                        <option value="4">Semester 4</option>
+                                        <option value="5">Semester 5</option>
+                                        <option value="6">Semester 6</option>
+                                        <option value="7">Semester 7</option>
+                                        <option value="8">Semester 8</option>
+                                    </select>
                                 </div>
 
                                 <div class="input-field">
-                                    <label>Admission Date</label>
-                                    <input
-                                        type="date"
-                                        name="admission_date"
-                                        id="admission_date"
-                                        required
-                                    />
-                                </div>
-
-                                <div class="input-field">
-                                    <label for="Course">Select Course:</label>
-                                    <select name="Course" id="course">
+                                    <label for="course">Select Course:</label>
+                                    <select name="course" id="course">
                                         <option value="" disabled selected>
                                             Select your course
                                         </option>
@@ -228,35 +195,112 @@
                                         </option>
                                     </select>
                                 </div>
-
-                                <div class="input-field">
-                                    <label for="Sem">Select Semester</label>
-                                    <select name="Sem" id="Sem">
-                                        <option value="" disabled selected>
-                                            Select your Semester
-                                        </option>
-                                        <option value="sem-1">Semester 1</option>
-                                        <option value="sem-2">Semester 2</option>
-                                        <option value="sem-3">Semester 3</option>
-                                        <option value="sem-4">Semester 4</option>
-                                        <option value="sem-5">Semester 5</option>
-                                        <option value="sem-6">Semester 6</option>
-                                        <option value="sem-7">Semester 7</option>
-                                        <option value="sem-8">Semester 8</option>
-                                    </select>
-                                </div>
                             </div>
-                            <button class="submit" type="submit">
+                            <button class="sumbit" type="submit">
                                 <span class="btnText">Save</span>
                                 <i class="uil uil-navigator"></i>
                             </button>
                         </div>
                     </div>
                 </form>
+
+            <div class="showData" id="showData"></div>
             </div>
+
         </div>
         <script>
-                //this is for slidebar
+
+            const showData = document.getElementById("showData");
+        window.onload = (event) => {
+
+        }
+
+        axios.get("/admin/subject/data")
+        .then(function(response) {
+            const data = response.data;
+            const container = document.getElementById("showData");
+
+            data.forEach((item) => {
+                const itemDiv = document.createElement('div');
+                
+                const itemName = document.createElement("h2");
+                itemName.textContent = item.subjectName;
+
+                 // Append the name and description to the item div
+                itemDiv.appendChild(itemName);
+
+                // Append the item div to the container
+                container.appendChild(itemDiv);
+            });
+        })
+        .catch(function (error) {
+            console.error('Error fetching data:', error);
+        });
+
+            // post form data
+            document
+                .getElementById("addData")
+                .addEventListener("submit", async (event) => {
+                    event.preventDefault();
+
+                    const subName = document.getElementById("subName").value;
+                    const subCode = document.getElementById("subCode").value;
+                    const course = document.getElementById("course").value;
+                    const subShortName = document.getElementById("subShortName").value;
+                    const subCredit = document.getElementById("subCredit").value;
+                    const offeredSemester = parseInt(document.getElementById("offeredSemester").value);
+
+                    const subjectData = {
+                        subName,
+                        subCode,
+                        course,
+                        subCredit,
+                        subShortName,
+                        offeredSemester,
+                    };
+                    // console.log(subjectData);
+                    try {
+                        const response = await fetch(
+                            "/admin/subject/new",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify(subjectData),
+                            },
+                        );
+
+                        const result = await response.json();
+                        console.log(result);
+
+                        if (result.success) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Success",
+                                text: "Data added successfully!",
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: `Error saving data: ${result.message}`,
+                                confirmButtonColor: "#d33",
+                            });
+                        }
+                    } catch (error) {
+                        console.error("Error updating student:", error);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: `Error saving data: ${error.message}`,
+                            confirmButtonColor: "#d33", 
+                        });
+                    }
+                });
+                
+
+                // Slidebar Dropdown script
                 let checked = false;
                     document.addEventListener("click", function (event) {
                 const slideBar = document.getElementById("slidebar");
@@ -307,7 +351,7 @@
                         }
                     });
                 });
-            });</script>
-        <script src="/assets/js/searchbar.js"></script>
+            });
+        </script>
     </body>
 </html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/assets/css/slidebar.css">
+        <link rel="stylesheet" href="/assets/css/form.css" />
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <title>Faculty Management</title>
+    </head>
+<body>
+    <div class="dash-container">
+        <input type="checkbox" id="check">
+        <label for="check" class="open"><i class="fas fa-bars"></i></label>
+        <div class="slidebar" id="slidebar">
+            <div class="profile">
+                <label for="check" class="close"><i class="fas fa-times"></i></label>
+                <img
+                    src="/assets/images/admin profile.jpg"
+                    alt="Profile Picture"
+                />
+                <h2>Admin</h2>
+                <p>Indus University</p>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="/admin/dashboard" class="menu-item"
+                    ><img
+                        class="menu-icon"
+                        src="/assets/images/dashboard.png"
+                        alt=""
+                    />Dashboard</a>
+
+                <!-- Faculty Dropdown -->
+                <button class="dropdown-btn">
+                    <img
+                        class="menu-icon"
+                        src="/assets/images/faculty.png"
+                        alt=""
+                    />Facultys
+                </button>
+                <div class="dropdown-content">
+                    <a href="/admin/faculty/add">Faculty Management</a>
+                    <a href="#">Attendance</a>
+                    <a href="#">Courses</a>
+                    <a href="#">Time Table</a>
+                </div>
+
+                <!-- Student Dropdown -->
+                <button class="dropdown-btn  active">
+                    <img
+                        class="menu-icon"
+                        src="/assets/images/student.png"
+                        alt=""
+                    />Students
+                </button>
+                <div class="dropdown-content">
+                    <a href="/admin/student/add">Manage Students</a>
+                    <a href="/admin/student/details">Student Details</a>
+                    <a href="#">Attendance</a>
+                    <a href="/admin/student/timetable">Time Table</a>
+                    <a href="#">Marks</a>
+                    <a href="#">Courses</a>
+                </div>
+
+                <a href="#" class="menu-item"
+                    ><img
+                        class="menu-icon"
+                        src="/assets/images/exam.png"
+                        alt=""
+                    />Exams</a
+                >
+                <a href="/admin/subjects" class="menu-item"
+                    ><img
+                        class="menu-icon"
+                        src="/assets/images/course.png"
+                        alt=""
+                    />Courses</a
+                >
+                <a href="/admin/student/timetable/new" class="menu-item"
+                    ><img
+                        class="menu-icon"
+                        src="/assets/images/calendar.png"
+                        alt=""
+                    />Create Time Table</a
+                >
+                <a href="#" class="menu-item"
+                    ><img
+                        class="menu-icon"
+                        src="/assets/images/hall.png"
+                        alt=""
+                    />Lecture Hall</a
+                >
+                <a href="/logout" class="menu-item"
+                    ><img
+                        class="menu-icon"
+                        src="/assets/images/logout.png"
+                        alt=""
+                    />Logout</a
+                >
+            </nav>
+        </div>
+    </div>
+    <div class="parent-container">
+        <div class="container">
+            <form id="addData">
+                <div class="form">
+                    <div class="details personal">
+                        <span class="title">Add new Faculty Details</span>
+
+                        <div class="fields">
+                            <div class="input-field">
+                                <label>First Name</label>
+                                <input
+                                    type="text"
+                                    name="Fname"
+                                    id="firstName"
+                                    placeholder="Enter your name"
+                                    required
+                                />
+                            </div>
+
+                            <div class="input-field">
+                                <label>Last Name</label>
+                                <input
+                                    type="text"
+                                    name="Lname"
+                                    id="lastName"
+                                    placeholder="Enter your name"
+                                    required
+                                />
+                            </div>
+
+                            <div class="input-field">
+                                <label>Date of Birth</label>
+                                <input
+                                    type="date"
+                                    name="dob"
+                                    id="dob"
+                                    placeholder="Enter birth date"
+                                    required
+                                />
+                            </div>
+
+                            <div class="input-field">
+                                <label>Email</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    placeholder="Enter your email"
+                                    required
+                                />
+                            </div>
+
+                            <div class="input-field">
+                                <label>Contact</label>
+                                <input
+                                    type="number"
+                                    name="contact"
+                                    id="contact"
+                                    placeholder="Enter mobile number"
+                                    required
+                                />
+                            </div>
+
+                            <div class="input-field">
+                                <label>Address</label>
+                                <input
+                                    type="text"
+                                    name="address"
+                                    id="address"
+                                    placeholder="Address"
+                                    required
+                                />
+                            </div>
+                            <div class="input-field">
+                                <label>Join Date</label>
+                                <input
+                                    type="date"
+                                    name="join_date"
+                                    id="join_date"
+                                    placeholder="Address"
+                                    required
+                                />
+                            </div>
+                            <div class="input-field">
+                                <label for="Course">Assign Course Department:</label>
+                                <select name="Course" id="course">
+                                    <option value="" disabled selected>
+                                        Select your course
+                                    </option>
+                                    <option value="CSE">
+                                        COMPUTER SCIENCE ENGINEERING
+                                    </option>
+                                    <option value="CE">
+                                        COMPUTER ENGINEERING
+                                    </option>
+                                    <option value="IT">
+                                        INFORMATION TECHNOLOGY
+                                    </option>
+                                    <option value="ME">
+                                        MECHANICAL ENGINEERING
+                                    </option>
+                                    <option value="AE">
+                                        AUTOMOBILE ENGINEERING
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="input-field" style="visibility: hidden;">
+                                <label for="Sem">Select Semester</label>
+                                <select name="Sem" id="Sem">
+                                    <option value="" disabled selected>
+                                        Select your Semester
+                                    </option>
+                                    <option value="sem-1">Semester 1</option>
+                                    <option value="sem-2">Semester 2</option>
+                                    <option value="sem-3">Semester 3</option>
+                                    <option value="sem-4">Semester 4</option>
+                                    <option value="sem-5">Semester 5</option>
+                                    <option value="sem-6">Semester 6</option>
+                                    <option value="sem-7">Semester 7</option>
+                                    <option value="sem-8">Semester 8</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="sumbit" type="submit">
+                            <span class="btnText">Save</span>
+                            <i class="uil uil-navigator"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        document
+            .getElementById("addData")
+            .addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                const Fname = document.getElementById("firstName").value;
+                const Lname = document.getElementById("lastName").value;
+                const dob = document.getElementById("dob").value;
+                const email = document.getElementById("email").value;
+                const contact = document.getElementById("contact").value;
+                const address = document.getElementById("address").value;
+                const join_date =
+                    document.getElementById("join_date").value;
+                const Course = document.getElementById("course").value;
+                // const Sem = document.getElementById("Sem").value;
+
+                const facultyData = {
+                    Fname,
+                    Lname,
+                    dob,
+                    email,
+                    contact,
+                    address,
+                    join_date,
+                    Course,
+                    // Sem,
+                };
+
+                try {
+                    const response = await fetch(
+                        "/admin/api/faculty/addDetail",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(facultyData),
+                        },
+                    );
+
+                    const result = await response.json();
+                    console.log(result);
+
+                    if (result.success) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success",
+                            text: "Data added successfully!",
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: `Error saving data: ${result.message}`,
+                            confirmButtonColor: "#d33",
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error updating student:", error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: `Error saving data: ${error.message}`,
+                        confirmButtonColor: "#d33",
+                    });
+                }
+            });
+            
+
+            //this is for slidebar
+            let checked = false;
+                document.addEventListener("click", function (event) {
+            const slideBar = document.getElementById("slidebar");
+                const menu = document.querySelector("#check");
+            if (menu.contains(event.target)){
+                    if (!checked) {
+                    document.getElementById("check").checked = true;
+                        
+                        checked = true;
+                        
+                }else {
+                    document.getElementById("check").checked = false;
+                    checked = false;
+                    }
+
+            }else if (
+                !slideBar.contains(event.target)
+            ) {
+                document.getElementById("check").checked = false;
+            }
+            });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+
+            dropdownBtns.forEach((btn) => {
+                btn.addEventListener("click", function () {
+                    // Collapse any other open dropdown
+                    dropdownBtns.forEach((otherBtn) => {
+                        if (otherBtn !== btn) {
+                            const otherDropdownContent =
+                                otherBtn.nextElementSibling;
+                            otherDropdownContent.classList.remove("active");
+                            otherDropdownContent.style.maxHeight = null;
+                        }
+                    });
+
+                    // Toggle the clicked dropdown content
+                    const dropdownContent = this.nextElementSibling;
+                    dropdownContent.classList.toggle("active");
+
+                    if (dropdownContent.classList.contains("active")) {
+                        dropdownContent.style.maxHeight =
+                            dropdownContent.scrollHeight + "px";
+                    } else {
+                        dropdownContent.style.maxHeight = null;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

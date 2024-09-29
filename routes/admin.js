@@ -5,12 +5,11 @@ require("dotenv").config();
 const router = express.Router();
 const bodyParser = require("body-parser");
 const {
-  admin,
-  faculty,
-  student,
   StudentDetail,
   studentTimetable,
   department,
+  subjectDetail,
+  facultyDetail,
 } = require("../models/user.js");
 
 // dash
@@ -37,6 +36,114 @@ router.get("/student/timetable/new", (req, res) => {
   res.sendFile(
     path.join(__dirname, "../public/admin/student-new-timetable.html"),
   );
+});
+
+// subject management
+router.get("/subjects", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/admin/subject-management.html"));
+});
+
+// Faculty management
+router.get("/faculty/add", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/admin/faculty-management.html"));
+});
+
+router.get("/subject/data", async (req, res) => {
+  try {
+    const subjects = await subjectDetail.find();
+    res.json(subjects);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching data' });
+  }});
+
+router.post("/subject/new", async (req,res) => {
+  try {
+    const { subName, subCode, course, subShortName, subCredit, offeredSemester } = req.body;
+    // console.log(req.body);
+
+    const newDocument = {
+      subjectName: subName,
+      subjectCode: subCode,
+      departmentId: course,
+      subjectShortName: subShortName,
+      subjectCreditPoints: subCredit,
+      offeredSemester: offeredSemester,
+    };
+
+    const subject = new subjectDetail (newDocument);
+    await subject.save();
+    res.status(200).json({ success: true, message: "Data added successfully" });
+  } catch (error) {
+    console.error("Error saving data: ", error);
+    if (error.code === 11000) {
+      // Handle duplicate key error
+      res.status(400).json({
+        success: false,
+        message: `Duplicate key error: ${Object.keys(error.keyPattern).join(", ")} already exists.`,
+      });
+    } else {
+      // Handle other errors
+      res.status(500).json({
+        success: false,
+        message: `Error saving data: ${error.message}`,
+      });
+    }
+  }
+});
+
+router.post("/api/faculty/addDetail", async (req, res) => {
+  try {
+    const {
+      Fname,
+      Lname,
+      dob,
+      email,
+      contact,
+      address,
+      join_date,
+      Course,
+    } = req.body;
+    console.log(req.body);
+    console.log(
+      Fname,
+      Lname,
+      dob,
+      email,
+      contact,
+      address,
+      join_date,
+      Course,
+    );
+
+    const faculty = new facultyDetail({
+      Fname,
+      Lname,
+      DOB: dob,
+      Email: email,
+      Contact: contact,
+      Address: address,
+      joinDate: join_date,
+      assignedDepartment: Course,
+    });
+
+    await faculty.save();
+    res.status(200).json({ success: true, message: "Data added successfully" });
+  } catch (error) {
+    console.error("Error saving data: ", error);
+    if (error.code === 11000) {
+      // Handle duplicate key error
+      res.status(400).json({
+        success: false,
+        message: `Duplicate key error: ${Object.keys(error.keyPattern).join(", ")} already exists.`,
+      });
+    } else {
+      // Handle other errors
+      res.status(500).json({
+        success: false,
+        message: `Error saving data: ${error.message}`,
+      });
+    }
+  }
 });
 
 // Student admission Detail/management

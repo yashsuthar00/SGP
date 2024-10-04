@@ -22,8 +22,13 @@
                 align-items: center;
             }
 
+            .new-TT,
+            label,
+            select {
+                font-size: 1.2em;
+            }
+
             .parent {
-                background-color: red;
                 display: grid;
                 /* grid-template-areas: "a"; */
                 grid-auto-rows: 75px;
@@ -45,6 +50,12 @@
     </head>
     <body>
         <div class="container">
+            <a href="/admin/student/timetable/new"
+                ><button type="button" class="new-TT">
+                    Create New Timetable?
+                </button></a
+            >
+            <br />
             <div>
                 <div>
                     <label for="department-select">Choose a department:</label>
@@ -212,6 +223,7 @@
                 console.log(data);
                 parent.style.gridTemplateColumns = `repeat(${cols}, 170px)`;
                 parent.style.gridTemplateRows = `repeat(${rows}, 75px)`;
+                parent.style.border = "1.5px solid black";
 
                 let colarr = [
                     "",

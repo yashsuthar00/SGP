@@ -27,8 +27,17 @@ UserSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-// Student admission Schema
+// subject Schema
+const subjectDetailSchema = new mongoose.Schema({
+  subjectName: { type: String, required: true },
+  subjectCode: { type: String, required: true, unique: true },
+  subjectShortName: { type: String, required: true, unique: true },
+  departmentId: { type: String, required: true },
+  subjectCreditPoints: { type: Number, required: true },
+  offeredSemester: { type: Number, required: true },
+})
 
+// Student addmission Schema
 const StudentDetailSchema = new mongoose.Schema({
   Fname: { type: String, required: true },
   Lname: { type: String, required: true },
@@ -39,6 +48,19 @@ const StudentDetailSchema = new mongoose.Schema({
   AdmissionDate: { type: String, required: true },
   Course: { type: String, required: true },
   Semester: { type: String, required: true },
+  department_id: { type: mongoose.Schema.Types.ObjectId, ref: 'department' }
+});
+
+// Faculty detail Schema
+const FacultyDetailSchema = new mongoose.Schema({
+  Fname: { type: String, required: true },
+  Lname: { type: String, required: true },
+  DOB: { type: String, required: true },
+  Email: { type: String, required: true, unique: true },
+  Contact: { type: String, required: true },
+  Address: { type: String, required: true },
+  joinDate: { type: String, required: true },
+  assignedDepartment: { type: String, required: true },
 });
 
 const StudentTimetableSchema = new mongoose.Schema({
@@ -53,7 +75,6 @@ const StudentTimetableSchema = new mongoose.Schema({
   dayTime: { type: String, required: true },
   lectureDuration: { type: String, required: true },
 });
-
 
 // create new timetable
 
@@ -104,6 +125,13 @@ const NewStudentTimetableSchema = new mongoose.Schema({
   ]
 });
 
+const classSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  batch: { type: String, required: true }, 
+  student_id: [{ type: mongoose.Schema.Types.ObjectId, ref: 'StudentDetail' }],
+  department_id: { type: mongoose.Schema.Types.ObjectId, ref: 'department' },
+});
+
 const DepartmentSchema = new mongoose.Schema({
   name: { type: String, required: true },
   departmentId: { type: String, required: true },
@@ -112,6 +140,9 @@ const DepartmentSchema = new mongoose.Schema({
 const admin = mongoose.model("admin", UserSchema, "adminLogin");
 const faculty = mongoose.model("faculty", UserSchema, "facultyLogin");
 const student = mongoose.model("student", UserSchema, "studentLogin");
+const subjectDetail = mongoose.model("subjectDetail", subjectDetailSchema, "subjects");
+const facultyDetail = mongoose.model("facultyDetail", FacultyDetailSchema, "facultyDetail");
+const classDetail = mongoose.model("classDetail", classSchema, "classDetail");
 const department = mongoose.model(
   "department",
   DepartmentSchema,
@@ -136,7 +167,10 @@ module.exports = {
   faculty,
   student,
   StudentDetail,
+  facultyDetail,
   studentTimetable,
   newStudentTimetable,
   department,
+  subjectDetail,
+  classDetail,
 };

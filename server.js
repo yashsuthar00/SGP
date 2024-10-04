@@ -7,7 +7,7 @@ const { error } = require("console");
 const cors = require("cors");
 const path = require("path");
 const Swal = require("sweetalert2");
-const { admin, faculty, student, StudentDetail } = require("./models/user");
+const { admin, faculty, student } = require("./models/user");
 require("dotenv").config();
 
 const app = express();

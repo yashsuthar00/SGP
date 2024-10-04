@@ -10,12 +10,19 @@ const {
   department,
   subjectDetail,
   facultyDetail,
+  classDetail,
 } = require("../models/user.js");
 
 // dash
 router.get("/dashboard", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/admin/admin-dashboard.html"));
 });
+
+// classes management
+router.get("/classes", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/admin/class-management.html"));
+});
+
 // student logs
 router.get("/student/details", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/admin/student-logs.html"));
@@ -37,7 +44,6 @@ router.get("/student/timetable/new", (req, res) => {
     path.join(__dirname, "../public/admin/student-new-timetable.html"),
   );
 });
-
 // subject management
 router.get("/subjects", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/admin/subject-management.html"));
@@ -46,6 +52,97 @@ router.get("/subjects", (req, res) => {
 // Faculty management
 router.get("/faculty/add", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/admin/faculty-management.html"));
+});
+
+router.get("/api/departments", async (req, res) => {
+  try {
+    const Department = await department.find({}, { departmentId: 1, name: 1 });
+    res.json(Department);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+});
+
+router.get('/api/batches/:departmentId', async (req, res) => {
+  const batches = await StudentDetail.find({ department_id: req.params.departmentId });
+  res.json(batches);
+});
+
+// Route to save divisions
+router.post('/divisions', async (req, res) => {
+  const divisions = req.body.divisions;
+
+  try {
+    // Check if the division already exists for the same department and batch
+    for (const division of divisions) {
+      const existingDivision = await classDetail.findOne({
+        name: division.name,
+        department_id: division.department_id,
+        batch: division.batch
+      });
+
+      if (existingDivision) {
+        return res.status(400).json({ message: `Division ${division.name} already exists for batch ${division.batch}` });
+      }
+    }
+
+    // If no duplicates, insert the new divisions
+    await classDetail.insertMany(divisions);
+    res.status(201).json({ message: 'Divisions created successfully' });
+  } catch (error) {
+    console.error('Error creating divisions:', error);
+    res.status(500).json({ message: 'Internal Server Error', error });
+  }
+});
+
+
+// Route to get divisions with students
+router.get('/students/:departmentId/:batch', async (req, res) => {
+  const { departmentId, batch } = req.params;
+
+  try {
+    const students = await StudentDetail.find({
+      department_id: departmentId,
+      Batch: batch,
+    });
+
+    // Return only the _id field of each student
+    const studentIds = students.map(student => student._id);
+    res.json(studentIds);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.post("/class/new", async (req, res) => {
+  try{
+    const { class_id } = req.body;
+    console.log(class_id);
+
+    const newData = {
+      name : class_id,
+    }
+
+    const classes = new classDetail (newData);
+
+    await classes.save();
+    res.status(200).json({ success: true, message: "Data added successfully" });
+  } catch (error) {
+    console.error("Error saving data: ", error);
+    if (error.code === 11000) {
+      // Handle duplicate key error
+      res.status(400).json({
+        success: false,
+        message: `Duplicate key error: ${Object.keys(error.keyPattern).join(", ")} already exists.`,
+      });
+    } else {
+      // Handle other errors
+      res.status(500).json({
+        success: false,
+        message: `Error saving data: ${error.message}`,
+      });
+    }
+  }
 });
 
 router.get("/subject/data", async (req, res) => {

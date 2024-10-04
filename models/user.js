@@ -48,6 +48,7 @@ const StudentDetailSchema = new mongoose.Schema({
   AdmissionDate: { type: String, required: true },
   Course: { type: String, required: true },
   Semester: { type: String, required: true },
+  department_id: { type: mongoose.Schema.Types.ObjectId, ref: 'department' }
 });
 
 // Faculty detail Schema
@@ -75,6 +76,13 @@ const StudentTimetableSchema = new mongoose.Schema({
   lectureDuration: { type: String, required: true },
 });
 
+const classSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  batch: { type: String, required: true }, 
+  student_id: [{ type: mongoose.Schema.Types.ObjectId, ref: 'StudentDetail' }],
+  department_id: { type: mongoose.Schema.Types.ObjectId, ref: 'department' },
+})
+
 const DepartmentSchema = new mongoose.Schema({
   name: { type: String, required: true },
   departmentId: { type: String, required: true },
@@ -87,6 +95,7 @@ const faculty = mongoose.model("faculty", UserSchema, "facultyLogin");
 const student = mongoose.model("student", UserSchema, "studentLogin");
 const subjectDetail = mongoose.model("subjectDetail", subjectDetailSchema, "subjects");
 const facultyDetail = mongoose.model("facultyDetail", FacultyDetailSchema, "facultyDetail");
+const classDetail = mongoose.model("classDetail", classSchema, "classDetail");
 const department = mongoose.model(
   "department",
   DepartmentSchema,
@@ -112,5 +121,6 @@ module.exports = {
   facultyDetail,
   studentTimetable,
   department,
-  subjectDetail
+  subjectDetail,
+  classDetail,
 };

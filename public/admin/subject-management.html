@@ -9,12 +9,40 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <title>Subject Management</title>
+        <style>
+            @media (min-width: 1024px) and (max-width: 1921px) {
+                .showData{
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    grid-auto-rows: 150px;
+                }
+            }
+            @media (min-width: 768px) and (max-width: 1023px) {
+                .showData{
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    grid-auto-rows: 150px;
+                }
+            }
+            @media (max-width: 767px) {
+                .showData{
+                    display: grid;
+                    grid-template-columns: repeat(1, 1fr);
+                    grid-auto-rows: 150px;
+                }
+            @media (max-width: 319px)and (min-width: 1922px){
+                body{
+                    display: none;
+                    }
+                }
+            }
+        </style>
     </head>
     <body>
         <div class="dash-container">
             <input type="checkbox" id="check">
             <label for="check" class="open"><i class="fas fa-bars"></i></label>
-            <div class="slidebar" id="slidebar">
+            <div style="position: fixed; width: 21.7%;"  class="slidebar" id="slidebar">
                 <div class="profile">
                     <label for="check" class="close"><i class="fas fa-times"></i></label>
                     <img
@@ -103,7 +131,7 @@
                 </nav>
             </div>
         </div>
-        <div class="parent-container">
+        <div style="height: fit-content;" class="parent-container">
             <div class="container">
                 <form id="addData">
                     <div class="form">
@@ -223,13 +251,7 @@
             data.forEach((item) => {
                 const itemDiv = document.createElement('div');
                 
-                const itemName = document.createElement("h2");
-                itemName.textContent = item.subjectName;
-
-                 // Append the name and description to the item div
-                itemDiv.appendChild(itemName);
-
-                // Append the item div to the container
+                itemDiv.innerHTML = `<h4> <strong> <em> Subject Name: </em> </strong> ${item.subjectName} </h4> <strong> <em> Subject Code: </em> </strong> ${item.subjectCode} <br> <strong> <em> Credit Points </em> </strong> ${item.subjectCreditPoints}`;
                 container.appendChild(itemDiv);
             });
         })

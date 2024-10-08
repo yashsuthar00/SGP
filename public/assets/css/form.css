@@ -197,6 +197,7 @@ searchbar:hover {
     background-color: #ccc;
     border-radius: 10px;
 }
+
 /* Responsive adjustments */
 @media (max-width: 1024px) {
     .container {
@@ -207,7 +208,6 @@ searchbar:hover {
         width: calc(100% / 2 - 15px); /* Adjust to two columns for tablets */
     }
 }
-
 @media (max-width: 768px) {
     body {
         flex-direction: column;
@@ -232,7 +232,7 @@ searchbar:hover {
     left: 300px;
 }
 }
-@media (max-width: 319px){
+@media (max-width: 319px) and (max-width:1921px){
     body{
         display: none;
     }

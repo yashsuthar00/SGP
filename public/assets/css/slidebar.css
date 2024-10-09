@@ -170,8 +170,7 @@
                 #check:checked ~ .slidebar {
                     left: 0;
                 }
-    
-    }
+            }
     
 @media (min-width: 481px) and (max-width: 767px) {
             @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');

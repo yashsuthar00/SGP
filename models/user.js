@@ -89,6 +89,8 @@ const NewStudentTimetableSchema = new mongoose.Schema({
       day: { type: String, required: true },
       subject_id: { type: String, required: true },
       Time: { type: String, required: true },
+      // startTime: { type: String, required: true },
+      // endTime: { type: String, required: true },
       LH: { 
         type: String,
         validate: {

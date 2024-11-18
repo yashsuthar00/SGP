@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <link rel="stylesheet" href="/assets/css/slidebar.css">
+        <link rel="stylesheet" href="/assets/css/form.css" />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <title>Student Logs</title>
+    </head>
+    <body>
+        <div class="dash-container" style="width:0;"></div>
+            <input type="checkbox" id="check">
+            <label for="check" class="open"><i class="fas fa-bars"></i></label>
+            <div class="slidebar" id="slidebar">
+                <div class="profile">
+                    <label for="check" class="close"><i class="fas fa-times"></i></label>
+                    <img
+                        src="/assets/images/admin profile.jpg"
+                        alt="Profile Picture"
+                    />
+                    <h2>Admin</h2>
+                    <p>Indus University</p>
+                </div>
+
+                <nav class="sidebar-menu">
+                    <a href="/admin/dashboard" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/dashboard.png"
+                            alt=""
+                        />Dashboard</a>
+
+                    <!-- Faculty Dropdown -->
+                    <button class="dropdown-btn">
+                        <img
+                            class="menu-icon"
+                            src="/assets/images/faculty.png"
+                            alt=""
+                        />Facultys
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="/admin/faculty/add">Faculty Management</a>
+                        <a href="#">Attendance</a>
+                        <a href="#">Courses</a>
+                        <a href="#">Time Table</a>
+                    </div>
+
+                    <!-- Student Dropdown -->
+                    <button class="dropdown-btn  active">
+                        <img
+                            class="menu-icon"
+                            src="/assets/images/student.png"
+                            alt=""
+                        />Students
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="/admin/student/add">Manage Students</a>
+                        <a href="/admin/student/details">Student Details</a>
+                        <a href="#">Attendance</a>
+                        <a href="/admin/student/timetable">Time Table</a>
+                        <a href="#">Marks</a>
+                        <a href="#">Courses</a>
+                    </div>
+
+                    <a href="#" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/exam.png"
+                            alt=""
+                        />Exams</a
+                    >
+                    <a href="/admin/subjects" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/course.png"
+                            alt=""
+                        />Courses</a
+                    >
+                    <a href="/admin/student/timetable/new" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/calendar.png"
+                            alt=""
+                        />Create Time Table</a
+                    >
+                    <a href="/admin/lectureHalls" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/hall.png"
+                            alt=""
+                        />Lecture Hall</a
+                    >
+                    <a href="/logout" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/logout.png"
+                            alt=""
+                        />Logout</a
+                    >
+                </nav>
+            </div>
+        </div>
+        <div class="parent-container">
+            <div class="container" id="container">
+                <button onclick="findLectureHalls()">Find Lecture Halls</button>
+            </div>
+        </div>
+        <script>
+            // find booked lectures using dropdown 
+
+            // find booked lectureHalls
+            function findLectureHalls() {
+                axios.get("/admin/api/lectureHalls")
+                .then(response => {
+                    const data = response.data;
+                    console.log(data);
+                    const resultsDiv = document.getElementById('container');
+                    resultsDiv.innerHTML = '';
+
+                    if (data.length > 0) {
+                        // Iterate over the results and display them
+                        data.forEach(item => {
+                            const scheduleHtml = item.schedule.map(schedule => `
+                                <div>
+                                    <p><strong>Day:</strong> ${schedule.day}</p>
+                                    <p><strong>Time:</strong> ${schedule.startTime} - ${schedule.endTime}</p>
+                                    <p><strong>Subject:</strong> ${schedule.subject_id}</p>
+                                    <p><strong>Faculty:</strong> ${schedule.faculty_id}</p>
+                                    <p><strong>Lecture Hall:</strong> ${schedule.LH || schedule.LAB}</p>
+                                </div>
+                                <hr>
+                            `).join('');
+
+                            resultsDiv.innerHTML += `
+                                <div>
+                                    <h3>Timetable ID: ${item.timetableId}</h3>
+                                    <p><strong>Class ID:</strong> ${item.class_id}</p>
+                                    ${scheduleHtml}
+                                </div>
+                            `;
+                        });
+                    } else {
+                        resultsDiv.innerHTML = '<p>No lecture hall matches found for the current time.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    document.getElementById('results').innerHTML = '<p>An error occurred while fetching data.</p>';
+                });
+            }
+                //slidebar
+                let checked = false;
+                    document.addEventListener("click", function (event) {
+                const slideBar = document.getElementById("slidebar");
+                    const menu = document.querySelector("#check");
+                if (menu.contains(event.target)){
+                        if (!checked) {
+                        document.getElementById("check").checked = true;
+                            
+                            checked = true;
+                            
+                    }else {
+                        document.getElementById("check").checked = false;
+                        checked = false;
+                        }
+
+                }else if (
+                    !slideBar.contains(event.target)
+                ) {
+                    document.getElementById("check").checked = false;
+                }
+                });
+
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+
+                dropdownBtns.forEach((btn) => {
+                    btn.addEventListener("click", function () {
+                        // Collapse any other open dropdown
+                        dropdownBtns.forEach((otherBtn) => {
+                            if (otherBtn !== btn) {
+                                const otherDropdownContent =
+                                    otherBtn.nextElementSibling;
+                                otherDropdownContent.classList.remove("active");
+                                otherDropdownContent.style.maxHeight = null;
+                            }
+                        });
+
+                        // Toggle the clicked dropdown content
+                        const dropdownContent = this.nextElementSibling;
+                        dropdownContent.classList.toggle("active");
+
+                        if (dropdownContent.classList.contains("active")) {
+                            dropdownContent.style.maxHeight =
+                                dropdownContent.scrollHeight + "px";
+                        } else {
+                            dropdownContent.style.maxHeight = null;
+                        }
+                    });
+                });
+            });</script>
+    </body>
+</html>

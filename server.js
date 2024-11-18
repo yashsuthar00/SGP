@@ -7,7 +7,7 @@ const { error } = require("console");
 const cors = require("cors");
 const path = require("path");
 const Swal = require("sweetalert2");
-const { admin, faculty, student } = require("./models/user");
+const { admin, faculty, student, newStudentTimetable } = require("./models/user");
 require("dotenv").config();
 
 const app = express();
@@ -44,11 +44,11 @@ app.post("/signin", async (req, res) => {
       return res.status(400).send("Invalid credentials");
     }
     const token = jwt.sign(
-      { userId: user._id, role: userRole },
+      { userId: user.username, role: userRole },
       process.env.JWT_SECRET,
       { expiresIn: "1h" },
     );
-
+    
     res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
     res.redirect(`/${userRole}/dashboard`);
   } catch (error) {

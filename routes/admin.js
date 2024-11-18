@@ -55,6 +55,68 @@ router.get("/faculty/add", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/admin/faculty-management.html"));
 });
 
+// Lecture Hall management
+router.get("/lectureHalls", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/admin/LH-management.html"));
+});
+
+router.get("/api/lectureHalls",async (req, res) => {
+  try {
+    const now = new Date();
+    const currentDay = now.toLocaleDateString('en-US', { weekday: 'long' });
+    const currentTime = now.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false  // 24-hour format
+    });
+
+    const results = await newStudentTimetable.aggregate([
+      {
+        $match: {
+          'schedule.day': currentDay, // Match by day
+          // 'schedule.LH': '4' 
+        }
+      },
+      {
+        $unwind: '$schedule'
+      },
+      {
+        $match: {
+          'schedule.day': currentDay,
+          // 'schedule.LH': '4', // Replace with desired lecture hall
+          $expr: {
+            $and: [
+              { $lte: ['$schedule.startTime', currentTime] },
+              { $gte: ['$schedule.endTime', currentTime] }
+            ]
+          }
+        }
+      },
+      {
+        $group: {
+          _id: '$_id',
+          timetableId: { $first: '$timetableId' },
+          class_id: { $first: '$class_id' },
+          schedule: { $push: '$schedule' }
+        }
+      },
+      {
+        $match: {
+          'schedule.0': { $exists: true } 
+        }
+      }
+    ]);
+    if (results.length > 0) {
+      res.status(200).json(results);
+    } else {
+      res.status(404).json({ message: 'No lecture hall matches found for the current time.' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: `An error occurred while retrieving the data., ${error.message}` });
+  }
+});
+
 router.get("/api/departments", async (req, res) => {
   try {
     const Department = await department.find({}, { departmentId: 1, name: 1 });
@@ -241,6 +303,18 @@ router.post("/api/faculty/addDetail", async (req, res) => {
         message: `Error saving data: ${error.message}`,
       });
     }
+  }
+});
+
+// faculty, student and subject count
+router.get("/api/count", async (req, res) => {
+  try{
+    const student = await StudentDetail.countDocuments();
+    const faculty = await facultyDetail.countDocuments();
+    const subject = await subjectDetail.countDocuments();
+    res.json({student, faculty, subject});
+  } catch (err) {
+    res.status(500).send("Error fetching results");
   }
 });
 

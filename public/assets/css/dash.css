@@ -992,6 +992,7 @@
                 flex-basis: 20%;
                 height: 100dvh;
                 width: 100%;
+                max-width: 380px;
                 overflow: scroll;
                 scrollbar-width:none; /* Firefox */
                 -ms-overflow-style:none; /* IE and Edge */
@@ -1085,6 +1086,7 @@
                 flex-basis: 25%;
                 height: 100dvh;
                 width: 100%;
+                max-width: 380px;
             }
             
             .child-calendar {

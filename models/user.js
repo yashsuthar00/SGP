@@ -76,8 +76,6 @@ const StudentTimetableSchema = new mongoose.Schema({
   lectureDuration: { type: String, required: true },
 });
 
-// create new timetable
-
 const NewStudentTimetableSchema = new mongoose.Schema({
   startTime: { type: String, required: true },
   endTime: { type: String, required: true },
@@ -130,7 +128,7 @@ const classSchema = new mongoose.Schema({
   batch: { type: String, required: true }, 
   student_id: [{ type: mongoose.Schema.Types.ObjectId, ref: 'StudentDetail' }],
   department_id: { type: mongoose.Schema.Types.ObjectId, ref: 'department' },
-});
+
 
 const DepartmentSchema = new mongoose.Schema({
   name: { type: String, required: true },

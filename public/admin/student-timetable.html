@@ -4,6 +4,12 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <link rel="stylesheet" href="/assets/css/slidebar.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <title>Document</title>
         <style>
             /* .secondchild {
@@ -18,7 +24,6 @@
                 height: 100dvh;
                 width: 100%;
                 display: flex;
-                justify-content: center;
                 align-items: center;
             }
 
@@ -42,14 +47,109 @@
                 grid-column: span 2;
             }
 
-            .container {
-                display: flex;
+            .time_table_container {
+                display: flex; 
+                justify-self: flex-end;
                 flex-direction: column;
             }
         </style>
     </head>
     <body>
-        <div class="container">
+
+        <div class="dash-container" style="width:0;"></div>
+            <input type="checkbox" id="check">
+            <label for="check" class="open"><i class="fas fa-bars"></i></label>
+            <div class="slidebar" id="slidebar">
+                <div class="profile">
+                    <label for="check" class="close"><i class="fas fa-times"></i></label>
+                    <img
+                        src="/assets/images/admin profile.jpg"
+                        alt="Profile Picture"
+                    />
+                    <h2>Admin</h2>
+                    <p>Indus University</p>
+                </div>
+
+                <nav class="sidebar-menu">
+                    <a href="/admin/dashboard" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/dashboard.png"
+                            alt=""
+                        />Dashboard</a>
+
+                    <!-- Faculty Dropdown -->
+                    <button class="dropdown-btn">
+                        <img
+                            class="menu-icon"
+                            src="/assets/images/faculty.png"
+                            alt=""
+                        />Facultys
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="/admin/faculty/add">Faculty Management</a>
+                        <a href="#">Attendance</a>
+                        <a href="#">Courses</a>
+                        <a href="#">Time Table</a>
+                    </div>
+
+                    <!-- Student Dropdown -->
+                    <button class="dropdown-btn  active">
+                        <img
+                            class="menu-icon"
+                            src="/assets/images/student.png"
+                            alt=""
+                        />Students
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="/admin/student/add">Manage Students</a>
+                        <a href="/admin/student/details">Student Details</a>
+                        <a href="#">Attendance</a>
+                        <a href="/admin/student/timetable">Time Table</a>
+                        <a href="#">Marks</a>
+                        <a href="#">Courses</a>
+                    </div>
+
+                    <a href="#" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/exam.png"
+                            alt=""
+                        />Exams</a
+                    >
+                    <a href="/admin/subjects" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/course.png"
+                            alt=""
+                        />Courses</a
+                    >
+                    <a href="/admin/student/timetable/new" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/calendar.png"
+                            alt=""
+                        />Create Time Table</a
+                    >
+                    <a href="#" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/hall.png"
+                            alt=""
+                        />Lecture Hall</a
+                    >
+                    <a href="/logout" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/logout.png"
+                            alt=""
+                        />Logout</a
+                    >
+                </nav>
+            </div>
+        </div>
+        <div class="time_table_container">
+
             <a href="/admin/student/timetable/new"
                 ><button type="button" class="new-TT">
                     Create New Timetable?

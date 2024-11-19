@@ -3,7 +3,10 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <link rel="stylesheet" href="/assets/css/slidebar.css">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <title>Time table playground</title>
         <style>
@@ -13,7 +16,6 @@
                 height: 100dvh;
                 width: 100%;
                 display: flex;
-                justify-content: center;
                 align-items: center;
             }
             .parent {
@@ -31,11 +33,18 @@
             }
             .container {
                 display: flex;
-                flex-direction: column;
+                flex-direction: column;            
             }
+
+            .Time_table_container {
+                display: flex;
+                align-items: center 
+            }
+
             button {
                 font-size: 2em;
             }
+
             .drag-item-container {
                 display: flex;
                 flex-direction: row;
@@ -96,16 +105,553 @@
                 cursor: default; /* Change cursor to indicate it's not draggable */
             }
             
+
+            @media (min-width: 767px) and (max-width: 1024px) {
+
+.profile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 4px;
+    margin: 4px 0;
+}
+
+.profile img {
+    margin: 2px 0 8px;
+    width: 70px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.slidebar {
+    background-color: #dce8f5;
+    display: flex;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 30%; /* Increased to give more width to the sidebar */
+    height: 100vh;
+    width: 100%;
+    max-width: 260px;
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.menu-icon {
+    width: 24px;
+    height: auto;
+    margin-right: 25px;
+}
+
+.dropdown-btn {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 5px;
+    background-color: #dce8f5;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    color: #333;
+    text-decoration: none;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.dropdown-btn.active, .menu-item:hover {
+    background-color: #d1e1fc;
+}
+
+.dropdown-btn:hover {
+    background-color: #d1e1fc;
+}
+
+.dropdown-content {
+    max-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 3.5em;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding-left: 6px;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 4px 0;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    color: firebrick;
+}
+}
+@media (min-width: 1024px) and (max-width: 1280px) {
+
+.profile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 6px;
+    margin: 6px 0;
+}
+
+.profile img {
+    margin: 3px 0 10px;
+    width: 80px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.slidebar {
+    background-color: #dce8f5;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 30%; /* Slightly wider for medium screens */
+    height: 100vh;
+    width: 100%;
+    max-width: 300px;
+    overflow: auto; /* Ensure smooth scrolling */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.menu-icon {
+    width: 26px;
+    height: auto;
+    margin-right: 30px;
+}
+
+.dropdown-btn {
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 6px;
+    background-color: #dce8f5;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 6px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.dropdown-btn.active, .menu-item:hover {
+    background-color: #d1e1fc;
+}
+
+.dropdown-btn:hover {
+    background-color: #d1e1fc;
+}
+
+.dropdown-content {
+    max-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 4em;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding-left: 6px;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 5px 0;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    color: firebrick;
+}
+}
+@media (min-width: 1281px) and (max-width: 1440px) {
+
+.profile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 8px;
+    margin: 8px 0;
+}
+
+.profile img {
+    margin: 4px 0 12px;
+    width: 90px; 
+    height: auto;
+    border-radius: 50%;
+}
+
+.slidebar {
+    background-color: #dce8f5;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 30%; 
+    height: 100vh;
+    width: 100%;
+    max-width: 300px;
+    overflow: scroll;
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+}
+
+.menu-icon {
+    width: 28px;
+    height: auto;
+    margin-right: 40px;
+}
+
+.dropdown-btn {
+    width: 100%;
+    padding: 8px; 
+    margin-bottom: 8px;
+    background-color: #dce8f5;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+    font-size: 15px; 
+    font-family: 'Poppins', sans-serif;
+    align-self: center;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 8px; 
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.dropdown-btn.active, .menu-item:hover {
+    background-color: #d1e1fc;
+}
+
+.dropdown-btn:hover {
+    background-color: #d1e1fc;
+}
+
+.dropdown-content {
+    max-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 4.5em;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding-left: 8px;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 6px 0;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    color: firebrick;      
+}
+}
+@media (min-width: 1441px) and (max-width: 1920px) {
+
+.profile{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    margin: 10px 0;
+
+}
+
+.profile img{
+    margin: 5px 0 15px;
+    width: 100px;
+    height: auto;
+    border-radius: 50%;
+}
+.slidebar{
+    background-color: #dce8f5;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 30%;
+    height: 100dvh;
+    width: 100%;
+    max-width: 300px;
+    overflow: scroll;
+    scrollbar-width:none; /* Firefox */
+    -ms-overflow-style:none; /* IE and Edge */
+}
+.check{
+    appearance: none;
+}
+.fas{
+    appearance: none;
+}
+
+.menu-icon{
+    width: 30px;
+    height: auto;
+    margin-right: 50px;
+}
+
+.dropdown-btn {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #dce8f5;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    align-self: center;
+}
+
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.dropdown-btn.active, .menu-item:hover {
+    background-color: #d1e1fc;
+}
+.dropdown-btn:hover{
+    background-color: #d1e1fc;
+}
+/* Dropdown Content */
+.dropdown-content {
+    max-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 5em;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding-left: 10px;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 8px 0;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    color: firebrick;      
+}
+}
         </style>
     </head>
     <body>
-        <div class="container">
+        <div class="dash-container" style="width:0;"></div>
+            <input type="checkbox" id="check">
+            <label for="check" class="open"><i class="fas fa-bars"></i></label>
+            <div class="slidebar" id="slidebar">
+                <div class="profile">
+                    <label for="check" class="close"><i class="fas fa-times"></i></label>
+                    <img
+                        src="/assets/images/admin profile.jpg"
+                        alt="Profile Picture"
+                    />
+                    <h2>Admin</h2>
+                    <p>Indus University</p>
+                </div>
+
+                <nav class="sidebar-menu">
+                    <a href="/admin/dashboard" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/dashboard.png"
+                            alt=""
+                        />Dashboard</a>
+
+                    <!-- Faculty Dropdown -->
+                    <button class="dropdown-btn">
+                        <img
+                            class="menu-icon"
+                            src="/assets/images/faculty.png"
+                            alt=""
+                        />Facultys
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="/admin/faculty/add">Faculty Management</a>
+                        <a href="#">Attendance</a>
+                        <a href="#">Courses</a>
+                        <a href="#">Time Table</a>
+                    </div>
+
+                    <!-- Student Dropdown -->
+                    <button class="dropdown-btn  active">
+                        <img
+                            class="menu-icon"
+                            src="/assets/images/student.png"
+                            alt=""
+                        />Students
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="/admin/student/add">Manage Students</a>
+                        <a href="/admin/student/details">Student Details</a>
+                        <a href="#">Attendance</a>
+                        <a href="/admin/student/timetable">Time Table</a>
+                        <a href="#">Marks</a>
+                        <a href="#">Courses</a>
+                    </div>
+
+                    <a href="#" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/exam.png"
+                            alt=""
+                        />Exams</a
+                    >
+                    <a href="/admin/subjects" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/course.png"
+                            alt=""
+                        />Courses</a
+                    >
+                    <a href="/admin/student/timetable/new" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/calendar.png"
+                            alt=""
+                        />Create Time Table</a
+                    >
+                    <a href="#" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/hall.png"
+                            alt=""
+                        />Lecture Hall</a
+                    >
+                    <a href="/logout" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/logout.png"
+                            alt=""
+                        />Logout</a
+                    >
+                </nav>
+            </div>
+        </div>
+
+        <div class="Time_table_container">
 
             <div class="parent" id="parent"></div>
             <div class="drag-item-container" id="drag-item-container"></div>
             <button type="submit" id="saveButton">Save Timetable</button>
         </div>
         <script>
+            
+                //this is for slidebar
+                let checked = false;
+                    document.addEventListener("click", function (event) {
+                const slideBar = document.getElementById("slidebar");
+                    const menu = document.querySelector("#check");
+                if (menu.contains(event.target)){
+                        if (!checked) {
+                        document.getElementById("check").checked = true;
+                            
+                            checked = true;
+                            
+                    }else {
+                        document.getElementById("check").checked = false;
+                        checked = false;
+                        }
+
+                }else if (
+                    !slideBar.contains(event.target)
+                ) {
+                    document.getElementById("check").checked = false;
+                }
+                });
+
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+
+                dropdownBtns.forEach((btn) => {
+                    btn.addEventListener("click", function () {
+                        // Collapse any other open dropdown
+                        dropdownBtns.forEach((otherBtn) => {
+                            if (otherBtn !== btn) {
+                                const otherDropdownContent =
+                                    otherBtn.nextElementSibling;
+                                otherDropdownContent.classList.remove("active");
+                                otherDropdownContent.style.maxHeight = null;
+                            }
+                        });
+
+                        // Toggle the clicked dropdown content
+                        const dropdownContent = this.nextElementSibling;
+                        dropdownContent.classList.toggle("active");
+
+                        if (dropdownContent.classList.contains("active")) {
+                            dropdownContent.style.maxHeight =
+                                dropdownContent.scrollHeight + "px";
+                        } else {
+                            dropdownContent.style.maxHeight = null;
+                        }
+                    });
+                });
+            });
+                //time table code
             let startTime, endTime;
             window.onload = () => {
                     Swal.fire({

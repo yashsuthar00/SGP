@@ -4,26 +4,23 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <link rel="stylesheet" href="/assets/css/slidebar.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <title>Time table playground</title>
         <style>
-            /* .secondchild {
-                        height: 200px;
-                        width: 200px;
-                        background-color: red;
-                    } */
-
             body {
                 margin: 0;
                 padding: 0;
                 height: 100dvh;
                 width: 100%;
                 display: flex;
-                justify-content: center;
                 align-items: center;
             }
-
             .parent {
-                background-color: red;
                 display: grid;
                 /* grid-template-areas: "a"; */
                 grid-auto-rows: 75px;
@@ -36,76 +33,1064 @@
             .spam-item {
                 grid-column: span 2;
             }
+            .Time_table_container {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+            }
+            button {
+                font-size: 2em;
+            }
+            .drag-item-container {
+                display: flex;
+                flex-direction: row;
+                gap: 20px;
+            }
+            .drag-item {
+                text-align: center;
+                align-content: center;
+                background-color: blue;
+                color: white;
+            }
+            .dropZone {
+                display: flex;
+                transition: background-color 0.3s ease; 
+            }
+
+
+            .draggable {
+                width: 100px;
+                height: 100px;
+                background-color: coral;
+                /* margin: 10px; */
+                cursor: grab;
+                position: relative;
+            }
+
+            .hovered {
+            background-color: lightgreen; /* Change color when hovered */
+            border-color: green;
+            }
+
+            .delete-btn {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                background-color: red;
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                font-size: 14px;
+                cursor: pointer;
+                display: none; /* Hide by default */
+            }
+
+            .draggable-copy:hover .delete-btn {
+                display: block; /* Show delete button on hover */
+            }
+
+            .draggable-copy {
+                position: relative;
+                cursor: default; /* Prevent dragging again */
+            }
+            .dropped {
+                background-color: lightblue; /* Change color to indicate it's dropped */
+                border: 2px solid blue; /* Add border to the dropped item */
+                cursor: default; /* Change cursor to indicate it's not draggable */
+            }
+            
+            @media (min-width: 767px) and (max-width: 1024px) {
+
+.profile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 4px;
+    margin: 4px 0;
+}
+
+.profile img {
+    margin: 2px 0 8px;
+    width: 70px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.slidebar {
+    background-color: #dce8f5;
+    display: flex;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 30%; /* Increased to give more width to the sidebar */
+    height: 100vh;
+    width: 100%;
+    max-width: 260px;
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.menu-icon {
+    width: 24px;
+    height: auto;
+    margin-right: 25px;
+}
+
+.dropdown-btn {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 5px;
+    background-color: #dce8f5;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    color: #333;
+    text-decoration: none;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.dropdown-btn.active, .menu-item:hover {
+    background-color: #d1e1fc;
+}
+
+.dropdown-btn:hover {
+    background-color: #d1e1fc;
+}
+
+.dropdown-content {
+    max-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 3.5em;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding-left: 6px;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 4px 0;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    color: firebrick;
+}
+}
+@media (min-width: 1024px) and (max-width: 1280px) {
+
+.profile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 6px;
+    margin: 6px 0;
+}
+
+.profile img {
+    margin: 3px 0 10px;
+    width: 80px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.slidebar {
+    background-color: #dce8f5;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 30%; /* Slightly wider for medium screens */
+    height: 100vh;
+    width: 100%;
+    max-width: 300px;
+    overflow: auto; /* Ensure smooth scrolling */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.menu-icon {
+    width: 26px;
+    height: auto;
+    margin-right: 30px;
+}
+
+.dropdown-btn {
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 6px;
+    background-color: #dce8f5;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 6px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.dropdown-btn.active, .menu-item:hover {
+    background-color: #d1e1fc;
+}
+
+.dropdown-btn:hover {
+    background-color: #d1e1fc;
+}
+
+.dropdown-content {
+    max-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 4em;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding-left: 6px;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 5px 0;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    color: firebrick;
+}
+}
+@media (min-width: 1281px) and (max-width: 1440px) {
+
+.profile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 8px;
+    margin: 8px 0;
+}
+
+.profile img {
+    margin: 4px 0 12px;
+    width: 90px; 
+    height: auto;
+    border-radius: 50%;
+}
+
+.slidebar {
+    background-color: #dce8f5;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 30%; 
+    height: 100vh;
+    width: 100%;
+    max-width: 300px;
+    overflow: scroll;
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+}
+
+.menu-icon {
+    width: 28px;
+    height: auto;
+    margin-right: 40px;
+}
+
+.dropdown-btn {
+    width: 100%;
+    padding: 8px; 
+    margin-bottom: 8px;
+    background-color: #dce8f5;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+    font-size: 15px; 
+    font-family: 'Poppins', sans-serif;
+    align-self: center;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 8px; 
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.dropdown-btn.active, .menu-item:hover {
+    background-color: #d1e1fc;
+}
+
+.dropdown-btn:hover {
+    background-color: #d1e1fc;
+}
+
+.dropdown-content {
+    max-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 4.5em;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding-left: 8px;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 6px 0;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    color: firebrick;      
+}
+}
+@media (min-width: 1441px) and (max-width: 1920px) {
+
+.profile{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    margin: 10px 0;
+
+}
+
+.profile img{
+    margin: 5px 0 15px;
+    width: 100px;
+    height: auto;
+    border-radius: 50%;
+}
+.slidebar{
+    background-color: #dce8f5;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 30%;
+    height: 100dvh;
+    width: 100%;
+    max-width: 300px;
+    overflow: scroll;
+    scrollbar-width:none; /* Firefox */
+    -ms-overflow-style:none; /* IE and Edge */
+}
+.check{
+    appearance: none;
+}
+.fas{
+    appearance: none;
+}
+
+.menu-icon{
+    width: 30px;
+    height: auto;
+    margin-right: 50px;
+}
+
+.dropdown-btn {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #dce8f5;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    align-self: center;
+}
+
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.dropdown-btn.active, .menu-item:hover {
+    background-color: #d1e1fc;
+}
+.dropdown-btn:hover{
+    background-color: #d1e1fc;
+}
+/* Dropdown Content */
+.dropdown-content {
+    max-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 5em;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding-left: 10px;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 8px 0;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+   color: firebrick;      
+}
+}
         </style>
     </head>
     <body>
-        <label for="category-select">Choose a category:</label>
-        <select id="category-select">
-            <option value="">--Please choose an option--</option>
-        </select>
+        <div class="dash-container" style="width:0;"></div>
+            <input type="checkbox" id="check">
+            <label for="check" class="open"><i class="fas fa-bars"></i></label>
+            <div class="slidebar" id="slidebar">
+                <div class="profile">
+                    <label for="check" class="close"><i class="fas fa-times"></i></label>
+                    <img
+                        src="/assets/images/admin profile.jpg"
+                        alt="Profile Picture"
+                    />
+                    <h2>Admin</h2>
+                    <p>Indus University</p>
+                </div>
 
-        <br /><br />
+                <nav class="sidebar-menu">
+                    <a href="/admin/dashboard" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/dashboard.png"
+                            alt=""
+                        />Dashboard</a>
 
-        <label for="item-select">Choose an item:</label>
-        <select id="item-select" disabled>
-            <option value="">--Please choose a category first--</option>
-        </select>
+                    <!-- Faculty Dropdown -->
+                    <button class="dropdown-btn">
+                        <img
+                            class="menu-icon"
+                            src="/assets/images/faculty.png"
+                            alt=""
+                        />Facultys
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="/admin/faculty/add">Faculty Management</a>
+                        <a href="#">Attendance</a>
+                        <a href="#">Courses</a>
+                        <a href="#">Time Table</a>
+                    </div>
 
+                    <!-- Student Dropdown -->
+                    <button class="dropdown-btn  active">
+                        <img
+                            class="menu-icon"
+                            src="/assets/images/student.png"
+                            alt=""
+                        />Students
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="/admin/student/add">Manage Students</a>
+                        <a href="/admin/student/details">Student Details</a>
+                        <a href="#">Attendance</a>
+                        <a href="/admin/student/timetable">Time Table</a>
+                        <a href="#">Marks</a>
+                        <a href="#">Courses</a>
+                    </div>
+
+                    <a href="#" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/exam.png"
+                            alt=""
+                        />Exams</a
+                    >
+                    <a href="/admin/subjects" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/course.png"
+                            alt=""
+                        />Courses</a
+                    >
+                    <a href="/admin/student/timetable/new" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/calendar.png"
+                            alt=""
+                        />Create Time Table</a
+                    >
+                    <a href="#" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/hall.png"
+                            alt=""
+                        />Lecture Hall</a
+                    >
+                    <a href="/logout" class="menu-item"
+                        ><img
+                            class="menu-icon"
+                            src="/assets/images/logout.png"
+                            alt=""
+                        />Logout</a
+                    >
+                </nav>
+            </div>
+        </div>
+
+        <div class="Time_table_container">
+            <div class="parent" id="parent"></div>
+            <div class="drag-item-container" id="drag-item-container"></div>
+            <button type="submit" id="saveButton">Save Timetable</button>
+        </div>
         <script>
-            fetch("/admin/api/student/timetable/new")
-                .then((response) => response.json())
-                .then((data) => {
-                    const categorySelect =
-                        document.getElementById("category-select");
+            
+                //this is for slidebar
+                let checked = false;
+                    document.addEventListener("click", function (event) {
+                const slideBar = document.getElementById("slidebar");
+                    const menu = document.querySelector("#check");
+                if (menu.contains(event.target)){
+                        if (!checked) {
+                        document.getElementById("check").checked = true;
+                            
+                            checked = true;
+                            
+                    }else {
+                        document.getElementById("check").checked = false;
+                        checked = false;
+                        }
 
-                    // Populate the first dropdown with categories
-                    data.forEach((category) => {
-                        const option = document.createElement("option");
-                        option.value = category._id;
-                        option.textContent = category.name;
-                        categorySelect.appendChild(option);
+                }else if (
+                    !slideBar.contains(event.target)
+                ) {
+                    document.getElementById("check").checked = false;
+                }
+                });
+
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+
+                dropdownBtns.forEach((btn) => {
+                    btn.addEventListener("click", function () {
+                        // Collapse any other open dropdown
+                        dropdownBtns.forEach((otherBtn) => {
+                            if (otherBtn !== btn) {
+                                const otherDropdownContent =
+                                    otherBtn.nextElementSibling;
+                                otherDropdownContent.classList.remove("active");
+                                otherDropdownContent.style.maxHeight = null;
+                            }
+                        });
+
+                        // Toggle the clicked dropdown content
+                        const dropdownContent = this.nextElementSibling;
+                        dropdownContent.classList.toggle("active");
+
+                        if (dropdownContent.classList.contains("active")) {
+                            dropdownContent.style.maxHeight =
+                                dropdownContent.scrollHeight + "px";
+                        } else {
+                            dropdownContent.style.maxHeight = null;
+                        }
                     });
-                })
-                .catch((error) =>
-                    console.error("Error fetching categories:", error),
+                });
+            });
+                //time table code
+            let startTime, endTime;
+            window.onload = () => {
+                    Swal.fire({
+                        title: "Add details to make timetable",
+                        showDenyButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: "Save",
+                        denyButtonText: `Don't save`,
+
+                        html: `
+                            <label> Class Name: </label>
+                            <input type = "text" id="classId" placeholder="ex: CSEA/CSEB" class="swal2-input">
+                            </br>
+                            <label> Semester: </label>
+                            <input type = "number" id="semester" placeholder="ex: 1/2/3" class="swal2-input">
+                            </br>
+                            <label> College Time: </label>
+                            <input type = "time" id="start-time" class="swal2-input">
+                            </br>
+                            <label> College End Time: </label>
+                            <input type = "time" id="end-time" class="swal2-input">
+                            </br>
+                            <label> One lecture Time: </label>
+                            <input type = "number" id="lecture-time" class="swal2-input">`,
+                        focusConfirm: false,
+                        preConfirm: () => {
+                            const semester = swal
+                                .getPopup()
+                                .querySelector("#semester").value;
+                            const class_id = swal
+                                .getPopup()
+                                .querySelector("#classId").value;
+                            const startTime = swal
+                                .getPopup()
+                                .querySelector("#start-time").value;
+                            const endTime = swal
+                                .getPopup()
+                                .querySelector("#end-time").value;
+                            const lectureDuration = swal
+                                .getPopup()
+                                .querySelector("#lecture-time").value;
+                            if (!startTime || !endTime || !lectureDuration) {
+                                Swal.showValidationMessage(
+                                    "Please enter all values",
+                                );
+                            }
+
+                            return { semester, class_id, startTime, endTime, lectureDuration };
+                        },
+                    }).then((result) => {
+                        startTime = result.value.startTime;
+                        endTime = result.value.endTime;
+                        lectureDuration = parseInt(result.value.lectureDuration);
+                        class_id = result.value.class_id;
+                        semester = result.value.semester
+
+                        // if (result.isConfirmed) {
+                        //     Swal.fire("Saved!", "", "success");
+                        // } else if (result.isDenied) {
+                        //     Swal.fire("Changes are not saved", "", "info");
+                        // }
+
+                        const totalMinutes = convertTimeToMinutes(
+                            startTime,
+                            endTime,
+                        );
+
+                        const colValue =
+                            Math.ceil(totalMinutes / lectureDuration) + 1;
+                        createGrid(
+                            6,
+                            colValue,
+                            startTime,
+                            lectureDuration,
+                        );
+                    });
+                };
+            function convertTimeToMinutes(startTime, endTime) {
+                const startParts = startTime.split(":");
+                const endParts = endTime.split(":");
+
+                const startMinutes =
+                    parseInt(startParts[0]) * 60 + parseInt(startParts[1]);
+                const endMinutes =
+                    parseInt(endParts[0]) * 60 + parseInt(endParts[1]);
+
+                const totalMinutes = endMinutes - startMinutes;
+
+                console.log("Total minutes:", totalMinutes);
+
+                return totalMinutes;
+            }
+
+            const parent = document.getElementById("parent");
+            function createGrid(rows, cols, stratTime, lectureDuration) {
+                parent.style.gridTemplateColumns = `repeat(${cols}, 170px)`;
+                parent.style.gridTemplateRows = `repeat(${rows}, 75px)`;
+                parent.style.border = "1.5px solid black";
+
+                let colarr = [
+                    "",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                ];
+
+                let rowarr = addMinutesMultipleTimes(
+                    startTime,
+                    lectureDuration,
+                    cols - 1,
                 );
 
-            // Add event listener to the first dropdown
-            document
-                .getElementById("category-select")
-                .addEventListener("change", function () {
-                    const selectedCategoryId = this.value;
-                    console.log(selectedCategoryId);
+                let lab = false;
+                let count = 1;
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        let child = document.createElement("div");
+                        child.classList.add("child");
 
-                    if (selectedCategoryId) {
-                        fetch(
-                            `/admin/api/student/timetable/new/${selectedCategoryId}`,
-                        )
-                            .then((response) => response.json())
-                            .then((data) => {
-                                const itemSelect =
-                                    document.getElementById("item-select");
-                                itemSelect.innerHTML = "";
-                                itemSelect.disabled = false;
+                        if (row === 0 && col === 0) {
+                            child.innerHTML = "";
+                        } else if (col === 0 && row !== 0) {
+                            child.innerHTML = `${colarr[row]}`;
+                        } else if (row === 0 && col !== 0) {
+                            child.innerHTML = `${rowarr[col]}`;
+                        } else {
+                            // Assigning id to each cell based on day and time
 
-                                data.forEach((item) => {
-                                    const option =
-                                        document.createElement("option");
-                                    option.value = item._id;
-                                    option.textContent = item.class_id;
-                                    itemSelect.appendChild(option);
-                                });
-                            })
-                            .catch((error) =>
-                                console.error("Error fetching items:", error),
-                            );
-                    } else {
-                        // Disable the second dropdown if no category is selected
-                        document.getElementById("item-select").disabled = true;
-                        document.getElementById("item-select").innerHTML =
-                            '<option value="">--Please choose a category first--</option>';
+                            // const [cellStartTime, cellEndTime] =
+                            //     rowarr[col].split(` to `); //split time to get cell start time
+                            // let cellId = `${colarr[row]}_${cellStartTime}`;
+                            // child.setAttribute("id", cellId);
+                            child.setAttribute("id", `dropZone${count++}`);
+                            child.classList.add("dropZone");
+
+                            child.setAttribute("time", `${rowarr[col]}`);
+                            child.setAttribute("day", colarr[row]);
+
+                        }
+
+                        parent.appendChild(child);
                     }
+                }
+                dragItems();
+                dragAndDrop()
+            }
+
+
+            function addMinutesMultipleTimes(
+                startTime,
+                minutesToAdd,
+                iterations,
+            ) {
+                let [hours, minutesPart] = startTime.split(":");
+                let minutes = parseInt(minutesPart.slice(0, 2));
+                let isPM = startTime.toLowerCase().includes("PM");
+
+                hours = parseInt(hours);
+
+                // Convert 12-hour format to 24-hour format
+                if (isPM && hours !== 12) {
+                    hours += 12;
+                } else if (!isPM && hours === 12) {
+                    hours = 0; // midnight case
+                }
+
+                // Create a new Date object with the initial start time
+                let currentDate = new Date();
+                currentDate.setHours(hours);
+                currentDate.setMinutes(minutes);
+
+                let result = [""];
+
+                for (let i = 0; i < iterations; i++) {
+                    // Get current hours and minutes
+                    let startHours = currentDate.getHours();
+                    let startMinutes = currentDate.getMinutes();
+                    let startPeriod = startHours >= 12 ? "PM" : "AM";
+                    startHours = startHours % 12 || 12;
+                    startMinutes =
+                        startMinutes < 10 ? `0${startMinutes}` : startMinutes;
+
+                    // Save the starting time in 12-hour format
+                    let startTimeFormatted = `${startHours}:${startMinutes}${startPeriod}`;
+
+                    // Add the given number of minutes
+                    currentDate.setMinutes(
+                        currentDate.getMinutes() + minutesToAdd,
+                    );
+
+                    // Get the new time after adding minutes
+                    let endHours = currentDate.getHours();
+                    let endMinutes = currentDate.getMinutes();
+                    let endPeriod = endHours >= 12 ? "PM" : "AM";
+                    endHours = endHours % 12 || 12;
+                    endMinutes =
+                        endMinutes < 10 ? `0${endMinutes}` : endMinutes;
+
+                    // Save the ending time in 12-hour format
+                    let endTimeFormatted = `${endHours}:${endMinutes}${endPeriod}`;
+
+                    // Push the formatted time range to the result array
+                    result.push(`${startTimeFormatted} to ${endTimeFormatted}`);
+                }
+
+                return result;
+            }
+            
+            function dragItems() {
+                const dragItemContainer = document.getElementById("drag-item-container");
+
+                const LH = document.createElement("div");
+                LH.id = "draggableItem1";
+                LH.style.width = "50px";
+                LH.style.height = "50px";
+                LH.classList.add("drag-item");
+                LH.classList.add("draggable");
+                LH.setAttribute("draggable", "true" );
+                LH.setAttribute("value", "LH" );
+                LH.innerHTML = "LH-3";
+                dragItemContainer.appendChild(LH);
+
+                const Subject = document.createElement("div");
+                Subject.id = "draggableItem2";
+                Subject.style.width = "50px";
+                Subject.style.height = "50px";
+                Subject.classList.add("drag-item");
+                Subject.classList.add("draggable");
+                Subject.setAttribute("draggable", "true" );
+                Subject.setAttribute("value", "subject" );
+                Subject.innerHTML = "FLAT";
+                dragItemContainer.appendChild(Subject);
+
+
+                const Faculty = document.createElement("div");
+                Faculty.id = "draggableItem3";
+                Faculty.style.width = "50px";
+                Faculty.style.height = "50px";
+                Faculty.classList.add("drag-item");
+                Faculty.classList.add("draggable");
+                Faculty.setAttribute("draggable", "true" );
+                Faculty.setAttribute("value", "Faculty" );
+                Faculty.innerHTML = "Ms. Dipali Jitiya";
+                dragItemContainer.appendChild(Faculty);
+            }
+
+            function dragAndDrop() {
+                let counter = 1;
+                const draggableItems = document.querySelectorAll('.draggable');
+                const dropZones = document.querySelectorAll('.dropZone');
+
+                // Track which items have been dropped in each drop zone
+                const droppedItems = {};
+                
+                // Initialize dropped items for each drop zone
+                dropZones.forEach((zone, index) => {
+                droppedItems[`dropZone${index + 1}`] = [];
                 });
+
+                // make each draggable item functional
+                draggableItems.forEach(item => {
+                    item.addEventListener('dragstart', (event) => {
+                        event.dataTransfer.setData('text/plain', event.target.id);
+                        console.log('Dragging started');
+                    });
+                });
+
+                // Add hover effect when dragging enters any drop zone
+                dropZones.forEach(zone => {
+                    zone.addEventListener('dragenter', () => {
+                        zone.classList.add('hovered');
+                    });
+
+                    zone.addEventListener('dragleave', () => {
+                        zone.classList.remove('hovered'); // Remove the hovered class
+                    });
+                    
+                     // Allow dropping in the drop zone
+                    zone.addEventListener('dragover', (event) => {
+                        event.preventDefault();  // Prevent the default to allow drop
+                    });
+
+                    zone.addEventListener('drop', (event) => {
+                        event.preventDefault();
+                        const id = event.dataTransfer.getData('text');
+                        const originalElement = document.getElementById(id);
+                        
+                        // Remove the hover effect after dropping
+                        zone.classList.remove('hovered');
+
+                        // Check if this item has already been dropped in this drop zone
+                        if (droppedItems[`dropZone${Array.from(dropZones).indexOf(zone) + 1}`].includes(id)) {
+                            console.log(droppedItems);
+                            alert('This item is already in this drop zone.');
+                            return; // Prevent dropping if item already exists
+                        }
+
+                        // Create a new copy of the draggable element
+                        const copyElement = originalElement.cloneNode(true); // Deep copy of the original item
+                        copyElement.id = `draggableItemCopy${counter++}`; // Give each copy a unique ID
+                        copyElement.classList.add('draggable-copy'); // Add a class for styling
+
+                        // Change the CSS of the copied element to indicate it's dropped
+                        copyElement.classList.add('dropped');
+
+                        // Disable dragging of the copied item
+                        copyElement.setAttribute('draggable', false);
+
+                        // Create a delete button
+                        const deleteButton = document.createElement('button');
+                        deleteButton.innerHTML = '×';  // Cross symbol
+                        deleteButton.classList.add('delete-btn');
+
+                        // Append the delete button to the copied item
+                        copyElement.appendChild(deleteButton);
+
+                        // Add click event listener to the delete button to remove the item
+                        deleteButton.addEventListener('click', () => {
+                            zone.removeChild(copyElement);  // Remove the copied item from the drop zone
+                            console.log('Copied item removed');
+
+                            // Remove the item from the dropped items array
+                            droppedItems[`dropZone${Array.from(dropZones).indexOf(zone) + 1}`] = droppedItems[`dropZone${Array.from(dropZones).indexOf(zone) + 1}`].filter(itemId => itemId !== id);
+                            
+                        });
+                        // Append the copied item to the drop zone
+                        zone.appendChild(copyElement);
+                        console.log('Copied item dropped and drag disabled');
+
+                        // Add the item ID to the dropped items array for this drop zone
+                        droppedItems[`dropZone${Array.from(dropZones).indexOf(zone) + 1}`].push(id);
+                    })
+                })  
+            }
+
+
+            //  Time table data
+            const timetableData = [];
+            function getTimetableValue () {
+
+                const dropZones = document.querySelectorAll('.dropZone');
+
+
+                dropZones.forEach ((zone, index)  => {
+                    let lecHall, faculty, subject;
+                    if (zone.querySelectorAll("div").length !== 0) {
+                        for (let i=0; i< zone.children.length; i++){
+                            let value = zone.children[i].getAttribute("value");
+
+                                if(value === 'LH') {
+                                    lecHall = zone.children[i].firstChild.nodeValue.trim();
+                                }
+                                
+                                if(value === 'subject') {
+                                    subject = zone.children[i].firstChild.nodeValue.trim();
+                                }
+                                
+                                if(value === 'Faculty') {
+                                    faculty =  zone.children[i].firstChild.nodeValue.trim();
+                                }
+                            }
+                    }
+                    // else {
+                    //     console.log("This dropZone has no Child");
+                    // }
+
+                    let dataObj = {};
+                    function addKeyValueIfNotEmpty(targetObj, key, value) {
+                        if (value !== undefined && value !== null && value !== '') {
+                            targetObj[key] = value;
+                        }
+                    }
+
+                    addKeyValueIfNotEmpty(dataObj, 'day', zone.getAttribute("day"));
+                    addKeyValueIfNotEmpty(dataObj, 'Time', zone.getAttribute("time"));
+                    addKeyValueIfNotEmpty(dataObj, 'LH', lecHall);
+                    addKeyValueIfNotEmpty(dataObj, 'faculty_id', faculty);
+                    addKeyValueIfNotEmpty(dataObj, 'subject_id', subject);
+
+
+                    // const dataObj = {
+                    //     day: zone.getAttribute("day"),
+                    //     Time: zone.getAttribute("time"),
+                    //     LH : `${lec}`,
+                    //     faculty_id: `${faculty}`,
+                    //     subject_id: `${subject}`,
+                    // }
+                    // console.log(dataObjs.faculty_id);
+                    // console.log(dataObj.LH);
+                    // console.log(dataObj.subject_id);
+                    if (dataObj.LH && dataObj.faculty_id && dataObj.subject_id){
+                        timetableData.push(dataObj);
+                    }
+                })
+
+                // console.log(timetableData);
+                return timetableData;
+            }
+
+
+            
+            document.getElementById("saveButton").addEventListener("click",function() {
+                
+                const schedule = getTimetableValue();
+
+                if ( class_id && semester && startTime && endTime && lectureDuration) {
+                    const timetableData = {
+                        class_id,
+                        semester,
+                        startTime, 
+                        endTime, 
+                        lectureDuration,
+                        schedule,
+                    }
+
+                    axios.post("/admin/api/student/timetable/newData", timetableData)
+                    .then(function(response) {
+                        console.log(response.data);
+                        Swal.fire({
+                        title: 'Success!',
+                        text: 'Timetable has been saved successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                        });
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to save the timetable. Please try again.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                        });
+                    })
+                } else {
+                    Swal.fire({
+                    title: 'Error!',
+                    text: 'Please complete all fields before saving.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                    });
+                }
+            })
         </script>
     </body>
 </html>

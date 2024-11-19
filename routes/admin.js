@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const {
   StudentDetail,
   studentTimetable,
+  newStudentTimetable,
   department,
   subjectDetail,
   facultyDetail,
@@ -396,6 +397,29 @@ router.put("/api/students/update", async (req, res) => {
   }
 });
 
+// Create New Timetable
+router.post("/api/student/timetable/newData", async (req, res) => {
+  try {
+    const { startTime, endTime, lectureDuration, class_id, semester, schedule } = req.body;
+    console.log(req.body);
+
+    const timetable = new newStudentTimetable ({
+      startTime, 
+      endTime, 
+      lectureDuration, 
+      class_id, 
+      semester,
+      schedule
+    });
+    
+    await timetable.save();
+    res.status(200).json({ success: true, message: "Data added successfully" });
+
+  } catch (error) {
+    console.error(error);
+  }
+})
+
 router.get("/api/student/timetable/new", async (req, res) => {
   try {
     const Department = await department.find({}, { departmentId: 1, name: 1 });
@@ -465,5 +489,9 @@ router.get("/api/student/timetable/:timetableId", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch data" });
   }
 });
+
+// router.get("/api/student/timetable/subject", async (req,res) => {
+
+// })
 
 module.exports = router;
